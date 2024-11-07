@@ -42,8 +42,8 @@ const DataTable: React.FC<DataTableProps> = ({ data, searchType, unitName, itemN
   });
 
   const columns = searchType === 0
-    ? ['unit', ...Object.keys(data[0] || {}).filter((key) => key !== 'unit')]
-    : Object.keys(data[0] || {});
+    ? ['Unidade', 'Lote', 'Data de Validade', 'Quantidade']  // Show unit name for 'Procurar por medicamento'
+    : ['Nome', 'Lote', 'Data de Validade', 'Quantidade'];    // Show item name for 'Procurar por unidade'
 
   return (
     <div>
@@ -64,9 +64,11 @@ const DataTable: React.FC<DataTableProps> = ({ data, searchType, unitName, itemN
           <tbody>
             {sortedData.map((row, idx) => (
               <tr key={idx}>
-                {columns.map((column) => (
-                  <td key={column} data-label={column}>{row[column]}</td>
-                ))}
+                {searchType === 0 && <td>{row.unit}</td>}   {/* Show unit name for 'Procurar por medicamento' */}
+                {searchType === 1 && <td>{row.name}</td>}   {/* Show item name for 'Procurar por unidade' */}
+                <td>{row.batch}</td>
+                <td>{row.expiry_date}</td>
+                <td>{row.quantity}</td>
               </tr>
             ))}
           </tbody>

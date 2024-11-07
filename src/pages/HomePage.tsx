@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Autocomplete from '../components/Autocomplete';
 import DataTable from '../components/DataTable';
 import Tabs from '../components/Tabs';
@@ -6,7 +6,7 @@ import { fetchItems, fetchItemStock } from '../services/itemService';
 import { fetchUnits, fetchUnitStock } from '../services/unitService';
 import '../styles/global.css';
 import '../styles/buttons.css';
-import '../styles/overlay.css';
+import '../styles/overlay.css'; 
 
 type Item = { id: string; name: string };
 type Batch = { batch: string; expiry_date: string; quantity: number };
@@ -25,7 +25,8 @@ const HomePage = () => {
   const [data, setData] = useState<TransformedData[]>([]);
   const [searchType, setSearchType] = useState(0);
   const [selectedOption, setSelectedOption] = useState<Item | null>(null);
-  const [itemDictionary, setItemDictionary] = useState<{ [key: string]: string }>({});
+  const itemDictionaryRef = useRef<{ [key: string]: string }>({}); // Dictionary for items
+  const unitDictionaryRef = useRef<{ [key: string]: string }>({}); // Dictionary for units
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("Carregando...");
   const [query, setQuery] = useState('');
@@ -36,11 +37,23 @@ const HomePage = () => {
     const fetchInitialOptions = async () => {
       const options = searchType === 0 ? await fetchItems() : await fetchUnits();
       setAllOptions(options);
-      const dictionary = options.reduce((acc, option) => {
-        acc[option.id] = option.name;
-        return acc;
-      }, {} as { [key: string]: string });
-      setItemDictionary(dictionary);
+      
+      // Build dictionary based on search type
+      if (searchType === 0) {
+        // Populate item dictionary
+        itemDictionaryRef.current = options.reduce((acc, option) => {
+          acc[option.id] = option.name;
+          return acc;
+        }, {} as { [key: string]: string });
+        console.log("Item Dictionary Loaded:", itemDictionaryRef.current);
+      } else {
+        // Populate unit dictionary
+        unitDictionaryRef.current = options.reduce((acc, option) => {
+          acc[option.id] = option.name;
+          return acc;
+        }, {} as { [key: string]: string });
+        console.log("Unit Dictionary Loaded:", unitDictionaryRef.current);
+      }
     };
     fetchInitialOptions();
   }, [searchType]);
@@ -67,22 +80,24 @@ const HomePage = () => {
         : await fetchUnitStock(selectedOption.id);
 
       const transformedData: TransformedData[] = searchType === 0
-        ? Object.entries(responseData).flatMap(([unitName, items]) =>
-            items.map((item) => ({
-              unit: unitName,
+        ? Object.entries(responseData).flatMap(([unitId, items]) => {
+            const unitName = unitDictionaryRef.current[unitId]; // Lookup unit name
+            return items.map((item) => ({
+              unit: unitName || unitId, // Use unit name if available
               batch: item.batch,
               expiry_date: item.expiry_date,
               quantity: item.quantity,
-            }))
-          )
-        : Object.entries(responseData).flatMap(([itemId, batches]) =>
-            batches.map((batch) => ({
-              name: itemDictionary[itemId] || itemId,
+            }));
+          })
+        : Object.entries(responseData).flatMap(([itemId, batches]) => {
+            const itemName = itemDictionaryRef.current[itemId]; // Lookup item name
+            return batches.map((batch) => ({
+              name: itemName || itemId, // Use item name if available
               batch: batch.batch,
               expiry_date: batch.expiry_date,
               quantity: batch.quantity,
-            }))
-          );
+            }));
+          });
 
       setData(transformedData);
       setQuery('');
