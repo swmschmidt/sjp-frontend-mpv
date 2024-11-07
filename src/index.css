@@ -147,6 +147,10 @@ body, p {
     justify-content: space-between;
     padding: 10px;
     font-size: 14px;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
   }
 
   .data-table td::before {
@@ -154,6 +158,7 @@ body, p {
     font-weight: 600;
     color: #007bff;
     margin-right: 10px;
+    flex-shrink: 0;
   }
 }
 
