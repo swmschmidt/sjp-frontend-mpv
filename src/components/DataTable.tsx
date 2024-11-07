@@ -44,35 +44,35 @@ const DataTable: React.FC<DataTableProps> = ({ data, searchType, unitName, itemN
     ? ['unit', ...Object.keys(data[0] || {}).filter((key) => key !== 'unit')]
     : Object.keys(data[0] || {});
 
-    return (
-      <div>
-        {searchType === 0 && itemName && <h2>{itemName}</h2>}
-        {searchType === 1 && unitName && <h2>{unitName}</h2>}
-        
-        <div className="data-table-wrapper"> {/* Responsive container */}
-          <table className="data-table">
-            <thead>
-              <tr>
+  return (
+    <div>
+      {searchType === 0 && itemName && <h2>{itemName}</h2>}
+      {searchType === 1 && unitName && <h2>{unitName}</h2>}
+      
+      <div className="data-table-wrapper">
+        <table className="data-table">
+          <thead>
+            <tr>
+              {columns.map((column) => (
+                <th key={column} onClick={() => handleSort(column)}>
+                  {column} {sortState[column] === 1 ? '↑' : sortState[column] === 2 ? '↓' : ''}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {sortedData.map((row, idx) => (
+              <tr key={idx}>
                 {columns.map((column) => (
-                  <th key={column} onClick={() => handleSort(column)}>
-                    {column} {sortState[column] === 1 ? '↑' : sortState[column] === 2 ? '↓' : ''}
-                  </th>
+                  <td key={column} data-label={column}>{row[column]}</td>
                 ))}
               </tr>
-            </thead>
-            <tbody>
-              {sortedData.map((row, idx) => (
-                <tr key={idx}>
-                  {columns.map((column) => (
-                    <td key={column}>{row[column]}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
-    );
+    </div>
+  );
 };
 
 export default DataTable;
