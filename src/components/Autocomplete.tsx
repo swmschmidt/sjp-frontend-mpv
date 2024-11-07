@@ -6,7 +6,7 @@ interface Option {
 }
 
 interface AutocompleteProps {
-  fetchOptions: () => Promise<Option[]>;
+  options: Option[];
   onSelect: (option: Option) => void;
   query: string;
   setQuery: (value: string) => void;
@@ -14,13 +14,8 @@ interface AutocompleteProps {
   onToggleList: () => void;
 }
 
-const Autocomplete: React.FC<AutocompleteProps> = ({ fetchOptions, onSelect, query, setQuery, placeholder, onToggleList }) => {
-  const [options, setOptions] = useState<Option[]>([]);
+const Autocomplete: React.FC<AutocompleteProps> = ({ options, onSelect, query, setQuery, placeholder, onToggleList }) => {
   const [showDropdown, setShowDropdown] = useState(false);
-
-  useEffect(() => {
-    fetchOptions().then(setOptions);
-  }, [fetchOptions]);
 
   const handleSelect = (option: Option) => {
     setQuery(option.name);

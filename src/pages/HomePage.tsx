@@ -1,4 +1,3 @@
-// HomePage.tsx (updated to handle async options in `showAllOptions`)
 import { useState, useEffect } from 'react';
 import Autocomplete from '../components/Autocomplete';
 import DataTable from '../components/DataTable';
@@ -6,13 +5,11 @@ import Tabs from '../components/Tabs';
 import { fetchItems, fetchItemStock } from '../services/itemService';
 import { fetchUnits, fetchUnitStock } from '../services/unitService';
 
-// Define types for items and batches
 type Item = { id: string; name: string };
 type Batch = { batch: string; expiry_date: string; quantity: number };
 type UnitStock = Record<string, Batch[]>;
 type ItemStock = Record<string, Batch[]>;
 
-// Define the type for transformedData entries
 type TransformedData = {
   unit?: string;
   name?: string;
@@ -28,24 +25,27 @@ const HomePage = () => {
   const [itemDictionary, setItemDictionary] = useState<{ [key: string]: string }>({});
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("Carregando...");
-  const [query, setQuery] = useState(''); // Added query state to control Autocomplete input
-  const [showAllOptions, setShowAllOptions] = useState(false); // Added state for toggling list
-  const [allOptions, setAllOptions] = useState<Item[]>([]); // Store all options
+  const [query, setQuery] = useState('');
+  const [showAllOptions, setShowAllOptions] = useState(false);
+  const [allOptions, setAllOptions] = useState<Item[]>([]);
 
   useEffect(() => {
-    fetchItems().then((items: Item[]) => {
-      const dictionary = items.reduce((acc, item) => {
-        acc[item.id] = item.name;
+    const fetchInitialOptions = async () => {
+      const options = searchType === 0 ? await fetchItems() : await fetchUnits();
+      setAllOptions(options);
+      const dictionary = options.reduce((acc, option) => {
+        acc[option.id] = option.name;
         return acc;
       }, {} as { [key: string]: string });
       setItemDictionary(dictionary);
-    });
-  }, []);
+    };
+    fetchInitialOptions();
+  }, [searchType]);
 
   const handleSelect = (option: Item) => {
     setSelectedOption(option);
-    setQuery(option.name); // Set query to selected option name
-    setShowAllOptions(false); // Close the list when an option is selected
+    setQuery(option.name);
+    setShowAllOptions(false);
   };
 
   const handleSearch = async () => {
@@ -82,7 +82,7 @@ const HomePage = () => {
           );
 
       setData(transformedData);
-      setQuery(''); // Clear query after search completes
+      setQuery('');
     } catch (error) {
       console.error("Error fetching data", error);
     }
@@ -99,24 +99,18 @@ const HomePage = () => {
 
   const handleToggleList = () => {
     setShowAllOptions((prev) => !prev);
-
-    // Fetch all options when toggling the list on
-    if (!showAllOptions) {
-      const fetchFunction = searchType === 0 ? fetchItems : fetchUnits;
-      fetchFunction().then(setAllOptions);
-    }
   };
 
   return (
     <div className="container">
       <Tabs labels={['Procurar por medicamento', 'Procurar por unidade']} onTabChange={handleTabChange} />
       <Autocomplete
-        fetchOptions={searchType === 0 ? fetchItems : fetchUnits}
+        options={allOptions}
         onSelect={handleSelect}
         query={query}
-        setQuery={setQuery} // Pass setQuery function
+        setQuery={setQuery}
         placeholder={searchType === 0 ? 'Digite o nome do medicamento' : 'Digite o nome da unidade'}
-        onToggleList={handleToggleList} // Pass toggle function
+        onToggleList={handleToggleList}
       />
       <button onClick={handleSearch} className={`search-button ${loading ? 'loading' : ''}`} disabled={loading}>
         {loading ? <span className="spinner"></span> : 'Buscar'}
