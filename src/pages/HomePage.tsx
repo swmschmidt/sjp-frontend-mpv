@@ -27,6 +27,7 @@ const HomePage = () => {
   const [itemDictionary, setItemDictionary] = useState<{ [key: string]: string }>({});
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("Carregando...");
+  const [query, setQuery] = useState(''); // Added query state to control Autocomplete input
 
   useEffect(() => {
     fetchItems().then((items: Item[]) => {
@@ -40,6 +41,7 @@ const HomePage = () => {
 
   const handleSelect = (option: Item) => {
     setSelectedOption(option);
+    setQuery(option.name); // Set query to selected option name
   };
 
   const handleSearch = async () => {
@@ -76,6 +78,7 @@ const HomePage = () => {
           );
 
       setData(transformedData);
+      setQuery(''); // Clear query after search completes
     } catch (error) {
       console.error("Error fetching data", error);
     }
@@ -96,6 +99,8 @@ const HomePage = () => {
       <Autocomplete
         fetchOptions={searchType === 0 ? fetchItems : fetchUnits}
         onSelect={handleSelect}
+        query={query}
+        setQuery={setQuery} // Pass setQuery function
         placeholder={searchType === 0 ? 'Digite o nome do medicamento' : 'Digite o nome da unidade'}
       />
       <button onClick={handleSearch} className={`search-button ${loading ? 'loading' : ''}`} disabled={loading}>

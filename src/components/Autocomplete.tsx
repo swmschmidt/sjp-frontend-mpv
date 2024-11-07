@@ -8,12 +8,13 @@ interface Option {
 interface AutocompleteProps {
   fetchOptions: () => Promise<Option[]>;
   onSelect: (option: Option) => void;
+  query: string; // Controlled query state
+  setQuery: (value: string) => void; // Function to set query from parent
   placeholder: string;
 }
 
-const Autocomplete: React.FC<AutocompleteProps> = ({ fetchOptions, onSelect, placeholder }) => {
+const Autocomplete: React.FC<AutocompleteProps> = ({ fetchOptions, onSelect, query, setQuery, placeholder }) => {
   const [options, setOptions] = useState<Option[]>([]);
-  const [query, setQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({ fetchOptions, onSelect, pla
     <div className="autocomplete-container">
       <input
         type="text"
-        value={query}
+        value={query} // Controlled input value
         onChange={handleInputChange}
         placeholder={placeholder}
         className="autocomplete-input"
