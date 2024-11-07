@@ -108,7 +108,7 @@ body, p {
 
 .data-table th,
 .data-table td {
-  padding: 14px 20px;
+  padding: 14px 16px;
   text-align: left;
   border-bottom: 1px solid #ddd;
   white-space: nowrap;
@@ -135,29 +135,29 @@ body, p {
   }
 
   .data-table tbody tr {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 10px;
+    padding: 8px;
     background-color: #fff;
   }
 
   .data-table td {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
-    font-size: 14px;
+    padding: 6px;
+    font-size: 13px;
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
-    max-width: 100%; /* Ensures it stays within viewport */
+    max-width: 100%;
   }
 
   .data-table td::before {
     content: attr(data-label);
     font-weight: 600;
     color: #007bff;
-    margin-right: 10px;
+    margin-right: 8px;
     flex-shrink: 0;
   }
 }
@@ -175,20 +175,20 @@ body, p {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 15px;
 }
 
 .tab-button {
-  padding: 10px 20px;
+  padding: 8px 16px;
   border-radius: 20px;
   border: 1px solid #ddd;
   background-color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
-  min-width: 180px;
+  min-width: 160px;
   text-align: center;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .tab-button.active {
@@ -205,15 +205,15 @@ body, p {
 .search-button {
   display: inline-block;
   width: auto;
-  padding: 12px 20px;
-  margin-top: 20px;
+  padding: 10px 16px;
+  margin-top: 15px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
 }
 
@@ -227,8 +227,8 @@ body, p {
 }
 
 .search-button .spinner {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border: 2px solid #fff;
   border-top: 2px solid transparent;
   border-radius: 50%;
@@ -238,14 +238,14 @@ body, p {
 
 /* List Button */
 .list-button {
-  font-size: 14px;
+  font-size: 13px;
   color: #007bff;
   background: none;
   border: none;
   cursor: pointer;
   margin-top: -8px;
-  margin-bottom: 10px;
-  padding: 5px 10px;
+  margin-bottom: 8px;
+  padding: 4px 8px;
   text-decoration: underline;
   transition: color 0.3s ease;
 }
@@ -269,24 +269,24 @@ body, p {
   justify-content: center;
   z-index: 1000;
   color: #333;
-  font-size: 18px;
+  font-size: 16px;
   padding: 20px;
   text-align: center;
 }
 
 .loading-overlay .overlay-spinner {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border: 5px solid #007bff;
   border-top: 5px solid transparent;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .loading-overlay p {
-  margin-top: 10px;
-  font-size: 16px;
+  margin-top: 8px;
+  font-size: 15px;
   color: #555;
 }
 
@@ -296,11 +296,11 @@ body, p {
   background-color: #ddd;
   border-radius: 8px;
   overflow: hidden;
-  margin-top: 15px;
+  margin-top: 12px;
 }
 
 .progress-bar {
-  height: 10px;
+  height: 8px;
   width: 0;
   background-color: #007bff;
   animation: loadProgress 30s linear forwards;
@@ -316,8 +316,8 @@ body, p {
 
   .data-table th,
   .data-table td {
-    padding: 10px;
-    font-size: 14px;
+    padding: 8px;
+    font-size: 13px;
   }
 
   .autocomplete-container {
@@ -337,12 +337,12 @@ body, p {
   }
 
   .search-button, .tab-button {
-    font-size: 14px;
+    font-size: 13px;
     padding: 8px 12px;
   }
 
   .loading-overlay {
-    font-size: 16px;
+    font-size: 14px;
     padding: 10px;
   }
 }
