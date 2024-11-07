@@ -148,9 +148,9 @@ body, p {
     padding: 10px;
     font-size: 14px;
     word-wrap: break-word;
-    word-break: break-word;
     overflow-wrap: break-word;
     white-space: normal;
+    max-width: 100%; /* Ensures it stays within viewport */
   }
 
   .data-table td::before {
