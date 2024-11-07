@@ -13,7 +13,7 @@ body {
   padding: 0;
   background-color: #f5f5f5;
   color: #333;
-  overflow-x: hidden; /* Prevents horizontal scroll */
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -30,7 +30,7 @@ body {
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow-x: hidden;
-  min-height: 100vh; /* Ensures container takes full vertical space */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,16 +70,38 @@ body, p {
   line-height: 1.6;
 }
 
+/* Autocomplete Wrapper */
+.autocomplete-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the input and button */
+  max-width: 500px;
+  margin: 20px auto;
+  width: 100%;
+}
+
+.list-toggle-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #007bff;
+  margin-right: 8px;
+}
+
+.list-toggle-button:hover {
+  color: #0056b3;
+}
+
 /* Autocomplete Component */
 .autocomplete-container {
-  max-width: 100%;
-  width: 500px;
-  margin: 20px auto;
   position: relative;
+  width: 100%; /* Allow it to stretch fully */
+  flex-grow: 1; /* Make it expand within the wrapper */
 }
 
 .autocomplete-input {
-  width: 100%;
+  width: 100%; /* Ensure the input takes the full container width */
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #ddd;
@@ -95,7 +117,7 @@ body, p {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
   max-height: 200px;
-  min-height: 50px; /* Ensures initial visibility */
+  min-height: 50px;
   overflow-y: auto;
   z-index: 10;
   margin-top: 8px;
@@ -113,7 +135,7 @@ body, p {
 /* DataTable Component */
 .data-table-wrapper {
   overflow-x: hidden;
-  max-width: 100vw; /* Contain within viewport */
+  max-width: 100vw;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -144,6 +166,65 @@ body, p {
 
 /* Mobile Responsive Table - Stacked Layout */
 @media (max-width: 768px) {
+  /* Container: Center everything with more precise control */
+  .container {
+    width: 100%;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Tab Buttons: Center align with spacing */
+  .tab-buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  /* Autocomplete Wrapper: Center the search bar and button */
+  .autocomplete-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 16px 0;
+  }
+
+  /* Button alignment within autocomplete */
+  .list-toggle-button {
+    margin-right: 8px;
+  }
+
+  /* Autocomplete Container: Full width within wrapper */
+  .autocomplete-container {
+    width: 100%;
+    flex-grow: 1;
+  }
+
+  /* Input Field: Full width, centered appearance */
+  .autocomplete-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+
+  /* Search Button: Full width, centered, with some padding */
+  .search-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+    width: 100%;
+    max-width: 200px;
+    text-align: center;
+  }
+
+  /* Data Table: Full width display for small screens */
   .data-table, .data-table thead, .data-table tbody, .data-table th, .data-table td, .data-table tr {
     display: block;
     width: 100%;
@@ -181,6 +262,7 @@ body, p {
     flex-shrink: 0;
   }
 }
+
 
 .data-table tbody tr:hover {
   background-color: #f7f7f7;
@@ -376,4 +458,28 @@ body, p {
 @keyframes loadProgress {
   from { width: 0%; }
   to { width: 100%; }
+}
+
+/* All Options List */
+.all-options-list {
+  position: absolute;
+  top: 60px;
+  width: 500px;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  padding: 10px;
+}
+
+.all-options-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.all-options-item:hover {
+  background-color: #f0f0f0;
 }

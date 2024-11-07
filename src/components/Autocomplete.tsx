@@ -8,12 +8,13 @@ interface Option {
 interface AutocompleteProps {
   fetchOptions: () => Promise<Option[]>;
   onSelect: (option: Option) => void;
-  query: string; // Controlled query state
-  setQuery: (value: string) => void; // Function to set query from parent
+  query: string;
+  setQuery: (value: string) => void;
   placeholder: string;
+  onToggleList: () => void;
 }
 
-const Autocomplete: React.FC<AutocompleteProps> = ({ fetchOptions, onSelect, query, setQuery, placeholder }) => {
+const Autocomplete: React.FC<AutocompleteProps> = ({ fetchOptions, onSelect, query, setQuery, placeholder, onToggleList }) => {
   const [options, setOptions] = useState<Option[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -23,36 +24,41 @@ const Autocomplete: React.FC<AutocompleteProps> = ({ fetchOptions, onSelect, que
 
   const handleSelect = (option: Option) => {
     setQuery(option.name);
-    setShowDropdown(false); // Hide dropdown after selection
+    setShowDropdown(false);
     onSelect(option);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
-    setShowDropdown(value.length >= 3); // Show dropdown only if 3 or more characters
+    setShowDropdown(value.length >= 3);
   };
 
   return (
-    <div className="autocomplete-container">
-      <input
-        type="text"
-        value={query} // Controlled input value
-        onChange={handleInputChange}
-        placeholder={placeholder}
-        className="autocomplete-input"
-      />
-      {showDropdown && (
-        <ul className="autocomplete-list">
-          {options
-            .filter((option) => option.name.toLowerCase().includes(query.toLowerCase()))
-            .map((option) => (
-              <li key={option.id} onClick={() => handleSelect(option)} className="autocomplete-item">
-                {option.name}
-              </li>
-            ))}
-        </ul>
-      )}
+    <div className="autocomplete-wrapper">
+      <button onClick={onToggleList} className="list-toggle-button" title={placeholder.includes("medicamento") ? "Ver todos os medicamentos da REMUME" : "Ver todas as unidades"}>
+        ☰
+      </button>
+      <div className="autocomplete-container">
+        <input
+          type="text"
+          value={query}
+          onChange={handleInputChange}
+          placeholder={placeholder}
+          className="autocomplete-input"
+        />
+        {showDropdown && (
+          <ul className="autocomplete-list">
+            {options
+              .filter((option) => option.name.toLowerCase().includes(query.toLowerCase()))
+              .map((option) => (
+                <li key={option.id} onClick={() => handleSelect(option)} className="autocomplete-item">
+                  {option.name}
+                </li>
+              ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

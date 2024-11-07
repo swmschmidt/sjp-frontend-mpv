@@ -1,3 +1,4 @@
+// HomePage.tsx (updated to handle async options in `showAllOptions`)
 import { useState, useEffect } from 'react';
 import Autocomplete from '../components/Autocomplete';
 import DataTable from '../components/DataTable';
@@ -28,6 +29,8 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("Carregando...");
   const [query, setQuery] = useState(''); // Added query state to control Autocomplete input
+  const [showAllOptions, setShowAllOptions] = useState(false); // Added state for toggling list
+  const [allOptions, setAllOptions] = useState<Item[]>([]); // Store all options
 
   useEffect(() => {
     fetchItems().then((items: Item[]) => {
@@ -42,6 +45,7 @@ const HomePage = () => {
   const handleSelect = (option: Item) => {
     setSelectedOption(option);
     setQuery(option.name); // Set query to selected option name
+    setShowAllOptions(false); // Close the list when an option is selected
   };
 
   const handleSearch = async () => {
@@ -93,6 +97,16 @@ const HomePage = () => {
     setData([]);
   };
 
+  const handleToggleList = () => {
+    setShowAllOptions((prev) => !prev);
+
+    // Fetch all options when toggling the list on
+    if (!showAllOptions) {
+      const fetchFunction = searchType === 0 ? fetchItems : fetchUnits;
+      fetchFunction().then(setAllOptions);
+    }
+  };
+
   return (
     <div className="container">
       <Tabs labels={['Procurar por medicamento', 'Procurar por unidade']} onTabChange={handleTabChange} />
@@ -102,6 +116,7 @@ const HomePage = () => {
         query={query}
         setQuery={setQuery} // Pass setQuery function
         placeholder={searchType === 0 ? 'Digite o nome do medicamento' : 'Digite o nome da unidade'}
+        onToggleList={handleToggleList} // Pass toggle function
       />
       <button onClick={handleSearch} className={`search-button ${loading ? 'loading' : ''}`} disabled={loading}>
         {loading ? <span className="spinner"></span> : 'Buscar'}
@@ -113,6 +128,15 @@ const HomePage = () => {
           <div className="progress-bar-container">
             <div className="progress-bar"></div>
           </div>
+        </div>
+      )}
+      {showAllOptions && (
+        <div className="all-options-list">
+          {allOptions.map((option) => (
+            <div key={option.id} onClick={() => handleSelect(option)} className="all-options-item">
+              {option.name}
+            </div>
+          ))}
         </div>
       )}
       {data.length > 0 && !loading && (
