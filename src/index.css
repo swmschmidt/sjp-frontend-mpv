@@ -22,79 +22,10 @@ body {
   border-radius: 8px;
 }
 
-/* Typography */
-h1 {
-  font-size: 28px;
-  font-weight: 700;
-  color: #222;
-  margin-bottom: 16px;
-}
-
-h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #222;
-  margin-bottom: 12px;
-}
-
-h3 {
-  font-size: 20px;
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-p, button, input, table, th, td {
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  color: #333;
-}
-
-body, p {
-  font-size: 16px;
-  line-height: 1.6;
-}
-
-/* Autocomplete Component */
-.autocomplete-container {
-  max-width: 500px;
-  margin: 20px auto;
-  position: relative;
-}
-
-.autocomplete-input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 16px;
-}
-
-.autocomplete-list {
-  position: absolute;
-  width: 100%;
-  background-color: white;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 10;
-  margin-top: 8px;
-}
-
-.autocomplete-item {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.autocomplete-item:hover {
-  background-color: #f0f0f0;
-}
-
 /* DataTable Component */
 .data-table {
   width: 100%;
+  max-width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   margin-top: 20px;
@@ -107,6 +38,7 @@ body, p {
   padding: 14px 20px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  white-space: nowrap; /* Ensure table cells don't break content */
 }
 
 .data-table th {
@@ -118,97 +50,9 @@ body, p {
   border-top-right-radius: 8px;
 }
 
-.data-table tbody tr:hover {
-  background-color: #f7f7f7;
-}
-
-.data-table tbody tr:nth-child(even) {
-  background-color: #fafafa;
-}
-
-/* Tabs Component */
-.tab-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.tab-button {
-  padding: 10px 20px;
-  border-radius: 20px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  min-width: 180px;
-  text-align: center;
-  font-size: 15px;
-}
-
-.tab-button.active {
-  background-color: #007bff;
-  color: white;
-  border: 1px solid #007bff;
-}
-
-.tab-button:hover {
-  background-color: #f0f0f0;
-}
-
-/* Search Button */
-.search-button {
-  display: inline-block;
-  width: auto;
-  padding: 12px 20px;
-  margin-top: 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.search-button:hover {
-  background-color: #0056b3;
-}
-
-.search-button.loading {
-  background-color: #007bff;
-  cursor: not-allowed;
-}
-
-.search-button .spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #fff;
-  border-top: 2px solid transparent;
-  border-radius: 50%;
-  display: inline-block;
-  animation: spin 1s linear infinite;
-}
-
-/* List Button */
-.list-button {
-  font-size: 14px;
-  color: #007bff;
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-top: -8px;
-  margin-bottom: 10px;
-  padding: 5px 10px;
-  text-decoration: underline;
-  transition: color 0.3s ease;
-}
-
-.list-button:hover {
-  color: #0056b3;
-  text-decoration: none;
+.data-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* For smoother mobile scrolling */
 }
 
 /* Loading Overlay */
@@ -259,25 +103,14 @@ body, p {
     font-size: 14px;
   }
 
-  .autocomplete-container {
-    width: 90%;
-  }
-
-  h1 {
-    font-size: 24px;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-
-  h3 {
-    font-size: 18px;
-  }
-
-  .search-button, .tab-button {
+  .data-table {
     font-size: 14px;
-    padding: 8px 12px;
+    overflow-x: auto;
+  }
+
+  .loading-overlay {
+    font-size: 16px;
+    padding: 10px;
   }
 }
 
@@ -285,9 +118,4 @@ body, p {
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
-}
-
-@keyframes loadProgress {
-  from { width: 0%; }
-  to { width: 100%; }
 }
