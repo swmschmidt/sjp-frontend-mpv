@@ -64,11 +64,15 @@ const DataTable: React.FC<DataTableProps> = ({ data, searchType, unitName, itemN
           <tbody>
             {sortedData.map((row, idx) => (
               <tr key={idx}>
-                {searchType === 0 && <td>{row.unit}</td>}   {/* Show unit name for 'Procurar por medicamento' */}
-                {searchType === 1 && <td>{row.name}</td>}   {/* Show item name for 'Procurar por unidade' */}
-                <td>{row.batch}</td>
-                <td>{row.expiry_date}</td>
-                <td>{row.quantity}</td>
+                {searchType === 0 && (
+                  <td data-label="Unidade">{row.unit}</td>   
+                )}
+                {searchType === 1 && (
+                  <td data-label="Nome">{row.name}</td>   
+                )}
+                <td data-label="Lote">{row.batch}</td>
+                <td data-label="Data de Validade">{row.expiry_date}</td>
+                <td data-label="Quantidade">{row.quantity}</td>
               </tr>
             ))}
           </tbody>
