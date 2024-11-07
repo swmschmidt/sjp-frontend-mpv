@@ -4,6 +4,9 @@ import DataTable from '../components/DataTable';
 import Tabs from '../components/Tabs';
 import { fetchItems, fetchItemStock } from '../services/itemService';
 import { fetchUnits, fetchUnitStock } from '../services/unitService';
+import '../styles/global.css';
+import '../styles/buttons.css';
+import '../styles/overlay.css';
 
 type Item = { id: string; name: string };
 type Batch = { batch: string; expiry_date: string; quantity: number };

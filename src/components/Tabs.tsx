@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import '../styles/tabs.css';
 
 interface TabsProps {
   labels: string[];

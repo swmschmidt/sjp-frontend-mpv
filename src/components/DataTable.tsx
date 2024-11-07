@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import '../styles/datatable.css';
 
 interface DataTableProps {
   data: any[];

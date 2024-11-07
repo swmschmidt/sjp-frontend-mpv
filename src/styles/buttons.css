@@ -1,0 +1,32 @@
+.search-button {
+    display: inline-block;
+    padding: 8px 14px;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  .search-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .search-button.loading {
+    background-color: #007bff;
+    cursor: not-allowed;
+  }
+  
+  .search-button .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #fff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 1s linear infinite;
+  }

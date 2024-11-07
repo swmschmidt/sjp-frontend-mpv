@@ -1,4 +1,3 @@
-import './index.css';
 import HomePage from './pages/HomePage';
 
 const App = () => <HomePage />;

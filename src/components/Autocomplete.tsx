@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import '../styles/autocomplete.css';
 
 interface Option {
   id: string;
