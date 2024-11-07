@@ -20,14 +20,14 @@
   }
   
   .data-table th {
-    background-color: #007bff;
+    background-color: var(--primary-blue);
     color: white;
     font-weight: 600;
     text-transform: uppercase;
   }
   
   .data-table tbody tr:hover {
-    background-color: #f7f7f7;
+    background-color: #e6f0fa;
   }
   
   .data-table tbody tr:nth-child(even) {
@@ -67,7 +67,7 @@
     .data-table td::before {
       content: attr(data-label);
       font-weight: 600;
-      color: #007bff;
+      color: var(--primary-blue);
       margin-right: 6px;
     }
   }

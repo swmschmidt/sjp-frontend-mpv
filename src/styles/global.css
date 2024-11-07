@@ -7,6 +7,15 @@
   box-sizing: border-box;
 }
 
+:root {
+    --primary-blue: #003366; /* Main blue color */
+    --dark-blue: #002244;    /* Darker blue for headings */
+    --light-blue: #d9e6f2;   /* Background light blue */
+    --text-gray: #333333;    /* Standard text color */
+    --background-gray: #f0f4f8; /* General background */
+}
+
+
 body {
   font-family: 'Inter', sans-serif;
   margin: 0;
