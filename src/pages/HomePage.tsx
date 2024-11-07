@@ -6,7 +6,7 @@ import { fetchItems, fetchItemStock } from '../services/itemService';
 import { fetchUnits, fetchUnitStock } from '../services/unitService';
 import '../styles/global.css';
 import '../styles/buttons.css';
-import '../styles/overlay.css'; 
+import '../styles/overlay.css';
 
 type Item = { id: string; name: string };
 type Batch = { batch: string; expiry_date: string; quantity: number };
@@ -40,19 +40,15 @@ const HomePage = () => {
       
       // Build dictionary based on search type
       if (searchType === 0) {
-        // Populate item dictionary
         itemDictionaryRef.current = options.reduce((acc, option) => {
           acc[option.id] = option.name;
           return acc;
         }, {} as { [key: string]: string });
-        console.log("Item Dictionary Loaded:", itemDictionaryRef.current);
       } else {
-        // Populate unit dictionary
         unitDictionaryRef.current = options.reduce((acc, option) => {
           acc[option.id] = option.name;
           return acc;
         }, {} as { [key: string]: string });
-        console.log("Unit Dictionary Loaded:", unitDictionaryRef.current);
       }
     };
     fetchInitialOptions();
@@ -81,18 +77,18 @@ const HomePage = () => {
 
       const transformedData: TransformedData[] = searchType === 0
         ? Object.entries(responseData).flatMap(([unitId, items]) => {
-            const unitName = unitDictionaryRef.current[unitId]; // Lookup unit name
+            const unitName = unitDictionaryRef.current[unitId];
             return items.map((item) => ({
-              unit: unitName || unitId, // Use unit name if available
+              unit: unitName || unitId,
               batch: item.batch,
               expiry_date: item.expiry_date,
               quantity: item.quantity,
             }));
           })
         : Object.entries(responseData).flatMap(([itemId, batches]) => {
-            const itemName = itemDictionaryRef.current[itemId]; // Lookup item name
+            const itemName = itemDictionaryRef.current[itemId];
             return batches.map((batch) => ({
-              name: itemName || itemId, // Use item name if available
+              name: itemName || itemId,
               batch: batch.batch,
               expiry_date: batch.expiry_date,
               quantity: batch.quantity,
@@ -121,6 +117,7 @@ const HomePage = () => {
 
   return (
     <div className="container">
+      <img src="/logo.svg" alt="Logo" className="logo" />
       <Tabs labels={['Procurar por medicamento', 'Procurar por unidade']} onTabChange={handleTabChange} />
       <Autocomplete
         options={allOptions}

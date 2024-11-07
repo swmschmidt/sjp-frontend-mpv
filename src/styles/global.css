@@ -91,3 +91,16 @@ body, p {
     font-size: 16px;
   }
 }
+
+.logo {
+    width: 100px;
+    height: auto;
+    margin: 0 auto 20px;
+    display: block;
+  }
+  
+  @media (max-width: 600px) {
+    .logo {
+      width: 80px;
+    }
+  }
