@@ -1,0 +1,37 @@
+.orders-container,
+.unit-details-container {
+  background-color: var(--light-blue);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.orders-table,
+.unit-details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.orders-table th,
+.unit-details-table th,
+.orders-table td,
+.unit-details-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 14px;
+}
+
+.pedido-icon {
+  cursor: pointer;
+}
+
+.pedido-available {
+  color: green;
+}
+
+.pedido-unavailable {
+  color: red;
+  cursor: not-allowed;
+}

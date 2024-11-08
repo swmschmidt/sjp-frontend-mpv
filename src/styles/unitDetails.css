@@ -1,0 +1,14 @@
+.unit-details-container {
+    padding: 20px;
+  }
+  
+  .unit-details-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .unit-details-table th, .unit-details-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }

@@ -104,3 +104,146 @@ body, p {
       width: 80px;
     }
   }
+
+  .back-button, .search-button {
+    display: inline-block;
+    padding: 8px 14px;
+    margin-top: 10px;
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .back-button:hover, .search-button:hover {
+    background-color: #002244;
+  }
+
+  .data-table-wrapper {
+    overflow-x: hidden;
+    max-width: 100vw;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Responsive and styled table */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 16px;
+  }
+  
+  .data-table th,
+  .data-table td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+    cursor: default;
+  }
+  
+  .data-table th {
+    background-color: var(--primary-blue);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: default;
+  }
+  
+  .data-table tbody tr:hover {
+    background-color: #e6f0fa;
+  }
+  
+  .data-table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+  
+  /* Mobile Responsive Table */
+  @media (max-width: 768px) {
+    .data-table,
+    .data-table thead,
+    .data-table tbody,
+    .data-table th,
+    .data-table td,
+    .data-table tr {
+      display: block;
+      width: 100%;
+      cursor: default;
+    }
+  
+    .data-table thead tr {
+      display: none;
+    }
+  
+    .data-table tbody tr {
+      margin-bottom: 8px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 6px;
+      background-color: #fff;
+      cursor: default;
+    }
+  
+    .data-table td {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px;
+      font-size: 12px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      max-width: 100%;
+      cursor: default;
+    }
+  
+    .data-table td::before {
+      content: attr(data-label);
+      font-weight: 600;
+      color: var(--primary-blue);
+      margin-right: 6px;
+      cursor: default;
+    }
+  
+  }
+
+    /* Specific cursor styling for interactive icon */
+    .pedido-icon.pedido-available {
+      cursor: pointer; /* Hand pointer for green icon */
+    }
+    
+    .pedido-icon.pedido-unavailable {
+      cursor: not-allowed; /* Disabled cursor for red icon */
+    }
+
+    .button {
+      padding: 8px 14px;
+      background-color: var(--primary-blue);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    
+    .button:hover {
+      background-color: #002244;
+    }
+    
+  /* Positioning for the top-right button */
+.top-right-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+    
+    .top-left-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
