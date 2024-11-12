@@ -35,9 +35,9 @@ const HomePage = () => {
   const [allOptions, setAllOptions] = useState<Item[]>([]);
   const navigate = useNavigate();
 
-  const goToOrdersPage = () => {
-    navigate('/pedidos');
-  };
+  //const goToOrdersPage = () => {
+   // navigate('/pedidos');
+  //};
 
   useEffect(() => {
     const fetchInitialOptions = async () => {
