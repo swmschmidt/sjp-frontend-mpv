@@ -122,7 +122,6 @@ const HomePage = () => {
 
   return (
     <div className="container">
-      <button onClick={goToOrdersPage} className="button top-right-button">Pedidos</button>
       <img src="/logo.svg" alt="Logo" className="logo" />
       <Tabs labels={['Procurar por medicamento', 'Procurar por unidade']} onTabChange={handleTabChange} />
       <Autocomplete

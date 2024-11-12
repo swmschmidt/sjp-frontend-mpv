@@ -1,0 +1,71 @@
+.sidebar {
+    width: 60px;
+    height: 100vh;
+    background-color: var(--primary-blue);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: width 0.3s ease;
+    z-index: 100;
+    box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.2);
+    overflow-x: hidden;
+  }
+  
+  .sidebar.open {
+    width: 200px;
+  }
+  
+  .toggle-button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 10px;
+    margin-top: 10px;
+    z-index: 101; /* Ensure it stays on top */
+  }
+  
+  .sidebar-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    width: 100%;
+  }
+  
+  .sidebar-button {
+    width: 100%;
+    padding: 10px 0;
+    background-color: transparent;
+    color: white;
+    border: none;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* Separator line */
+  }
+  
+  .sidebar-button:last-child {
+    border-bottom: none; /* Remove line after the last button */
+  }
+  
+  .sidebar-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Ensure toggle button visibility on mobile */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 60px; /* Start collapsed */
+    }
+  
+    .sidebar.open {
+      width: 200px;
+    }
+  }

@@ -247,3 +247,12 @@ body, p {
       top: 20px;
       left: 20px;
     }
+
+    .app-container {
+      position: relative;
+    }
+    
+    .content {
+      padding: 20px;
+      width: 100%;
+    }
