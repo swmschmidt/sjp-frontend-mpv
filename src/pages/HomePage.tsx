@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import Autocomplete from '../components/Autocomplete';
 import DataTable from '../components/DataTable';
 import Tabs from '../components/Tabs';
@@ -33,7 +33,7 @@ const HomePage = () => {
   const [query, setQuery] = useState('');
   const [showAllOptions, setShowAllOptions] = useState(false);
   const [allOptions, setAllOptions] = useState<Item[]>([]);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   //const goToOrdersPage = () => {
    // navigate('/pedidos');
