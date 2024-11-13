@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-//import { useNavigate } from 'react-router-dom';
 import Autocomplete from '../components/Autocomplete';
 import DataTable from '../components/DataTable';
 import Tabs from '../components/Tabs';
@@ -10,13 +9,14 @@ import '../styles/buttons.css';
 import '../styles/overlay.css';
 
 type Item = { id: string; name: string };
-type Batch = { batch: string; expiry_date: string; quantity: number };
+type Batch = { item_id: number; batch: string; expiry_date: string; quantity: number };
 type UnitStock = Record<string, Batch[]>;
 type ItemStock = Record<string, Batch[]>;
 
 type TransformedData = {
   unit?: string;
   name?: string;
+  item_id: number;
   batch: string;
   expiry_date: string;
   quantity: number;
@@ -33,15 +33,18 @@ const HomePage = () => {
   const [query, setQuery] = useState('');
   const [showAllOptions, setShowAllOptions] = useState(false);
   const [allOptions, setAllOptions] = useState<Item[]>([]);
-  //const navigate = useNavigate();
 
-  //const goToOrdersPage = () => {
-   // navigate('/pedidos');
-  //};
+  // Fetch units on initial load if unitDictionaryRef is empty
+  useEffect(() => {
+    if (Object.keys(unitDictionaryRef.current).length === 0) {
+      fetchAndSetUnits();
+    }
+  }, []);
 
+  // Fetch items or units based on the active tab
   useEffect(() => {
     const fetchInitialOptions = async () => {
-      const options = searchType === 0 ? await fetchItems() : await fetchUnits();
+      const options = searchType === 0 ? await fetchItems() : await fetchAndSetUnits();
       setAllOptions(options);
 
       if (searchType === 0) {
@@ -49,15 +52,20 @@ const HomePage = () => {
           acc[option.id] = option.name;
           return acc;
         }, {} as { [key: string]: string });
-      } else {
-        unitDictionaryRef.current = options.reduce((acc, option) => {
-          acc[option.id] = option.name;
-          return acc;
-        }, {} as { [key: string]: string });
       }
     };
     fetchInitialOptions();
   }, [searchType]);
+
+  // Function to fetch and set units
+  const fetchAndSetUnits = async () => {
+    const units = await fetchUnits();
+    unitDictionaryRef.current = units.reduce((acc, unit) => {
+      acc[unit.id] = unit.name;
+      return acc;
+    }, {} as { [key: string]: string });
+    return units;
+  };
 
   const handleSelect = (option: Item) => {
     setSelectedOption(option);
@@ -76,29 +84,36 @@ const HomePage = () => {
     }, 3000);
 
     try {
-      const responseData: ItemStock | UnitStock = searchType === 0
+      const responseData: { timestamp: string; data: ItemStock | UnitStock } = searchType === 0
         ? await fetchItemStock(selectedOption.id)
         : await fetchUnitStock(selectedOption.id);
 
+      console.log("Raw Response Data:", responseData);  // Log to verify fetched data structure
+
       const transformedData: TransformedData[] = searchType === 0
-        ? Object.entries(responseData).flatMap(([unitId, items]) => {
-            const unitName = unitDictionaryRef.current[unitId];
-            return items.map((item) => ({
-              unit: unitName || unitId,
-              batch: item.batch,
-              expiry_date: item.expiry_date,
-              quantity: item.quantity,
-            }));
-          })
-        : Object.entries(responseData).flatMap(([itemId, batches]) => {
-            const itemName = itemDictionaryRef.current[itemId];
-            return batches.map((batch) => ({
-              name: itemName || itemId,
+        ? Object.entries(responseData.data).flatMap(([unitId, batches]) => {
+            const unitName = unitDictionaryRef.current[unitId] || unitId;  // Translate ID to unit name if available
+            return Array.isArray(batches) ? batches.map((batch) => ({
+              unit: unitName,
+              item_id: batch.item_id,
               batch: batch.batch,
               expiry_date: batch.expiry_date,
               quantity: batch.quantity,
-            }));
+            })) : [];
+          })
+        : Object.entries(responseData.data).flatMap(([unitId, items]) => {
+            const unitName = unitDictionaryRef.current[unitId] || unitId;  // Translate ID to unit name if available
+            return Array.isArray(items) ? items.map((item) => ({
+              unit: unitName,
+              name: itemDictionaryRef.current[item.item_id.toString()] || item.item_id.toString(),
+              item_id: item.item_id,
+              batch: item.batch,
+              expiry_date: item.expiry_date,
+              quantity: item.quantity,
+            })) : [];
           });
+
+      console.log("Transformed Data:", transformedData);  // Check transformed data structure
 
       setData(transformedData);
       setQuery('');
