@@ -2,10 +2,10 @@ import { useState } from 'react';
 import '../styles/datatable.css';
 
 
-export type TransformedData = {
+type TransformedData = {
   unit?: string;
   name?: string;
-  item_id: number;
+  item_id?: number;  
   batch: string;
   expiry_date: string;
   quantity: number;

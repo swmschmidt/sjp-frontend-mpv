@@ -16,7 +16,7 @@ type ItemStock = Record<string, Batch[]>;
 type TransformedData = {
   unit?: string;
   name?: string;
-  item_id: number;
+  item_id?: number;  
   batch: string;
   expiry_date: string;
   quantity: number;
@@ -75,52 +75,64 @@ const HomePage = () => {
 
   const handleSearch = async () => {
     if (!selectedOption) return;
-
+  
     setLoading(true);
     setLoadingMessage("Carregando...");
-
+  
     const timeoutId = setTimeout(() => {
       setLoadingMessage("Por favor, não atualize a página. O carregamento de todos os itens da UBS pode levar até 30 segundos.");
     }, 3000);
-
+  
     try {
-      const responseData: { timestamp: string; data: ItemStock | UnitStock } = searchType === 0
-        ? await fetchItemStock(selectedOption.id)
-        : await fetchUnitStock(selectedOption.id);
-
-      console.log("Raw Response Data:", responseData);  // Log to verify fetched data structure
-
-      const transformedData: TransformedData[] = searchType === 0
-        ? Object.entries(responseData.data).flatMap(([unitId, batches]) => {
-            const unitName = unitDictionaryRef.current[unitId] || unitId;  // Translate ID to unit name if available
-            return Array.isArray(batches) ? batches.map((batch) => ({
-              unit: unitName,
-              item_id: batch.item_id,
-              batch: batch.batch,
-              expiry_date: batch.expiry_date,
-              quantity: batch.quantity,
-            })) : [];
-          })
-        : Object.entries(responseData.data).flatMap(([unitId, items]) => {
-            const unitName = unitDictionaryRef.current[unitId] || unitId;  // Translate ID to unit name if available
-            return Array.isArray(items) ? items.map((item) => ({
-              unit: unitName,
-              name: itemDictionaryRef.current[item.item_id.toString()] || item.item_id.toString(),
-              item_id: item.item_id,
-              batch: item.batch,
-              expiry_date: item.expiry_date,
-              quantity: item.quantity,
-            })) : [];
-          });
-
-      console.log("Transformed Data:", transformedData);  // Check transformed data structure
-
+      const responseData: { timestamp?: string; data?: ItemStock | UnitStock; items?: Array<{ batch: string; expiry_date: string; item_name: string; quantity: number }> } =
+        searchType === 0 ? await fetchItemStock(selectedOption.id) : await fetchUnitStock(selectedOption.id);
+  
+      console.log("Raw Response Data:", responseData);
+  
+      let transformedData: TransformedData[];
+  
+      if (responseData.items) {
+        // Handle new response format with "items" array
+        transformedData = responseData.items.map((item) => ({
+          name: item.item_name,
+          batch: item.batch,
+          expiry_date: item.expiry_date,
+          quantity: item.quantity,
+        }));
+      } else {
+        // Handle existing response format
+        transformedData = searchType === 0
+          ? Object.entries(responseData.data || {}).flatMap(([unitId, batches]) => {
+              const unitName = unitDictionaryRef.current[unitId] || unitId;
+              return Array.isArray(batches) ? batches.map((batch) => ({
+                unit: unitName,
+                item_id: batch.item_id,
+                batch: batch.batch,
+                expiry_date: batch.expiry_date,
+                quantity: batch.quantity,
+              })) : [];
+            })
+          : Object.entries(responseData.data || {}).flatMap(([unitId, items]) => {
+              const unitName = unitDictionaryRef.current[unitId] || unitId;
+              return Array.isArray(items) ? items.map((item) => ({
+                unit: unitName,
+                name: itemDictionaryRef.current[item.item_id.toString()] || item.item_id.toString(),
+                item_id: item.item_id,
+                batch: item.batch,
+                expiry_date: item.expiry_date,
+                quantity: item.quantity,
+              })) : [];
+            });
+      }
+  
+      console.log("Transformed Data:", transformedData);
+  
       setData(transformedData);
       setQuery('');
     } catch (error) {
       console.error("Error fetching data", error);
     }
-
+  
     clearTimeout(timeoutId);
     setLoading(false);
   };
