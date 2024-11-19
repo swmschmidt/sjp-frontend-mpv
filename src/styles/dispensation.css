@@ -1,0 +1,51 @@
+
+.dispensation-page {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+.filter-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input-field {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.input-field:focus {
+  border-color: var(--primary-blue);
+  outline: none;
+}
+
+.filter-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.input-field {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  flex: 1;
+}
+
+.input-field:focus {
+  border-color: var(--primary-blue);
+  outline: none;
+}
+
+.search-button {
+  flex-shrink: 0;
+}

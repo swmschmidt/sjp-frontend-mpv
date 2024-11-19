@@ -4,6 +4,7 @@ import OrdersPage from './pages/OrdersPage';
 import UnitDetailsPage from './pages/UnitDetailsPage';
 import Sidebar from './components/Sidebar';
 import OptionsPage from './pages/OptionsPage';
+import DispensationPage from "./pages/DispensationPage";
 import './styles/global.css';
 
 const App = () => (
@@ -15,6 +16,7 @@ const App = () => (
           <Route path="/" element={<HomePage />} />
           <Route path="/pedidos" element={<OrdersPage />} />
           <Route path="/pedidos/:unitId" element={<UnitDetailsPage />} />
+          <Route path="/dispensacao" element={<DispensationPage />} />
           <Route path="/opcoes" element={<OptionsPage />} />
         </Routes>
       </div>
