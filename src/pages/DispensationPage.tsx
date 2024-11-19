@@ -52,18 +52,45 @@ const DispensationPage = () => {
     fetchData();
   }, []);
 
+  const convertToGMT3 = (timestamp: string): string => {
+    const date = new Date(timestamp);
+    if (isNaN(date.getTime())) return "Invalid date";
+    const localDate = new Date(date.getTime());
+    return localDate.toLocaleString("pt-BR", {
+      timeZone: "America/Sao_Paulo",
+      dateStyle: "short",
+      timeStyle: "short",
+    });
+  };
+
+  const translateOperationType = (type: string): string => {
+    switch (type) {
+      case "dispensation":
+        return "Saída";
+      case "restock":
+        return "Entrada";
+      default:
+        return ""; // Handle other cases or return empty for "none"
+    }
+  };
+
   const handleSearch = async () => {
     if (!selectedUnit || !selectedItem || !date) return;
 
     setLoading(true);
     try {
       const response = await fetchDispensationByHour(selectedUnit.id, selectedItem.id, date);
-      const transformedData = response.map((item: any) => ({
-        batch: item.batch,
-        timestamp: new Date(item.timestamp).toLocaleString(),
-        quantity: item.quantity,
-        operation_type: item.operation_type,
-      }));
+      const transformedData = response
+        .map((item: any) => {
+          const operationType = translateOperationType(item[6]); 
+          return {
+            batch: item[7], 
+            timestamp: convertToGMT3(item[4]), 
+            quantity: item[5], 
+            operation_type: operationType,
+          };
+        })
+        .filter((entry: TransformedData) => entry.operation_type !== ""); // Omit entries with "none"
       setData(transformedData);
     } catch (error) {
       console.error("Error fetching dispensation data", error);
