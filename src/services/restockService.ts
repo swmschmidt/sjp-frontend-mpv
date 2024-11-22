@@ -34,3 +34,13 @@ export const fetchUniqueRestockUnits = async (): Promise<string[]> => {
       return [];
     }
   };
+
+export const fetchRestockSummed = async (date: string): Promise<any[]> => {
+  try {
+    const response = await axios.get(`${API_URL}/restock/restock-summed/${date}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching restock summed data:", error);
+    return [];
+  }
+};

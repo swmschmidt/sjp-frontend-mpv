@@ -22,6 +22,7 @@ const Sidebar = () => {
   const toggleSidebar = () => setIsOpen(!isOpen);
   const goToHomePage = () => navigate('/');
   const goToOrdersPage = () => navigate('/pedidos');
+  const goToRestockHistoryPage = () => navigate('/historico-pedidos');
   const goToOptionsPage = () => navigate('/opcoes');
   const goToDispensationPage = () => navigate("/dispensacao");
 
@@ -34,6 +35,7 @@ const Sidebar = () => {
         <div className="sidebar-content">
           <button onClick={goToHomePage} className="sidebar-button">Procurar Medicamentos</button>
           <button onClick={goToOrdersPage} className="sidebar-button">Pedidos</button>
+          <button onClick={goToRestockHistoryPage} className="sidebar-button">Histórico de pedidos</button>
           <button onClick={goToDispensationPage} className="sidebar-button">Dados de Dispensação</button>
           <button onClick={goToOptionsPage} className="sidebar-button">Opções</button>
         </div>
