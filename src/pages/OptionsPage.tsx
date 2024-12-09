@@ -14,6 +14,7 @@ import {
     TextField,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SearchIcon from '@mui/icons-material/Search';
 import '../styles/global.css';
 //import '../styles/options.css';
 
@@ -228,7 +229,7 @@ const OptionsPage = () => {
                                     <TableCell>{unit.name || unit.internal_id}</TableCell>
                                     <TableCell>
                                         <IconButton onClick={() => handleUnitClick(unit.internal_id)}>
-                                            <ArrowBackIcon />
+                                            <SearchIcon />
                                         </IconButton>
                                     </TableCell>
                                 </TableRow>
