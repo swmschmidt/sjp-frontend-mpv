@@ -1,132 +1,190 @@
-import { useState, useEffect, useRef } from "react";
-import Autocomplete from "../components/Autocomplete";
+import { useState, useEffect } from "react";
 import { fetchUnits } from "../services/unitService";
-import { fetchItems } from "../services/itemService";
 import { fetchRestockSummed } from "../services/restockService";
+import { Unit } from "../types/Unit";
+import axios from "axios";
+import {
+  Container,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  Typography,
+  TextField,
+  CircularProgress,
+} from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import SearchIcon from "@mui/icons-material/Search";
 import "../styles/global.css";
-import "../styles/buttons.css";
-
-type Item = { id: string; name: string };
-type RestockData = {
-    item_id: number;
-    unit_id: number;
-    total_quantity: number;
-    item_name?: string;
-  };
 
 const RestockHistoryPage = () => {
-  const [data, setData] = useState<RestockData[]>([]);
-  const [unitQuery, setUnitQuery] = useState("");
-  const [selectedUnit, setSelectedUnit] = useState<Item | null>(null);
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10)); // Default to today's date
+  const [units, setUnits] = useState<Unit[]>([]);
+  const [restockData, setRestockData] = useState<{ [key: string]: any[] }>({});
+  const [itemNames, setItemNames] = useState<{ [key: string]: string }>({});
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [units, setUnits] = useState<Item[]>([]);
-  const [itemDictionary, setItemDictionary] = useState<{ [key: string]: string }>({});
-  const unitDictionaryRef = useRef<{ [key: string]: string }>({});
 
-  // Fetch units and items on initial load
   useEffect(() => {
-    const fetchUnitsAndItems = async () => {
-      const fetchedUnits = await fetchUnits();
-      setUnits(fetchedUnits);
-
-      // Create a dictionary for unit lookup
-      unitDictionaryRef.current = fetchedUnits.reduce((acc, unit) => {
-        acc[unit.id] = unit.name;
-        return acc;
-      }, {} as { [key: string]: string });
-
-      // Fetch items and create a dictionary for item lookup
-      const fetchedItems = await fetchItems();
-      const itemDict = fetchedItems.reduce((acc, item) => {
-        acc[item.id] = item.name;
-        return acc;
-      }, {} as { [key: string]: string });
-
-      setItemDictionary(itemDict);
+    const fetchUnitsData = async () => {
+      const unitsData = await fetchUnits();
+      setUnits(unitsData);
     };
 
-    fetchUnitsAndItems();
+    fetchUnitsData();
   }, []);
 
-  const handleSearch = async () => {
-    if (!selectedUnit || !date) return;
-  
-    setLoading(true);
-    try {
-      const response = await fetchRestockSummed(date);
-  
-      // Filter data for the selected unit
-      const filteredData = response.filter((entry) => entry.unit_id === Number(selectedUnit.id));
-  
-      // Map item_id to item_name using the dictionary
-      const transformedData = filteredData.map((entry) => ({
-        ...entry, // Preserve original properties
-        item_name: itemDictionary[entry.item_id] || "Desconhecido", // Add item_name
-      }));
-  
-      setData(transformedData);
-    } catch (error) {
-      console.error("Error fetching restock history data", error);
-    }
-    setLoading(false);
+  useEffect(() => {
+    const fetchRestockData = async () => {
+      setLoading(true);
+      const data = await fetchRestockSummed(date);
+      const restockMap = data.reduce((acc, entry) => {
+        if (!acc[entry.unit_id]) {
+          acc[entry.unit_id] = [];
+        }
+        acc[entry.unit_id].push(entry);
+        return acc;
+      }, {} as { [key: string]: any[] });
+      setRestockData(restockMap);
+      setLoading(false);
+    };
+
+    fetchRestockData();
+  }, [date]);
+
+  useEffect(() => {
+    const fetchItemNames = async () => {
+      try {
+        const response = await axios.get("https://flask-app-rough-glitter-6700.fly.dev/items");
+        const items = response.data.reduce((acc: { [key: string]: string }, item: { id: string; name: string }) => {
+          acc[item.id] = item.name;
+          return acc;
+        }, {});
+        setItemNames(items);
+      } catch (error) {
+        console.error("Error fetching item names:", error);
+      }
+    };
+
+    fetchItemNames();
+  }, []);
+
+  const handleDateChange = (newDate: string) => {
+    setDate(newDate);
   };
 
-  const handleToggleUnitList = () => setUnitQuery("");
+  const handlePreviousDay = () => {
+    const previousDay = new Date(date);
+    previousDay.setDate(previousDay.getDate() - 1);
+    setDate(previousDay.toISOString().slice(0, 10));
+  };
+
+  const handleNextDay = () => {
+    const nextDay = new Date(date);
+    nextDay.setDate(nextDay.getDate() + 1);
+    setDate(nextDay.toISOString().slice(0, 10));
+  };
+
+  const handleUnitClick = (unitId: string) => {
+    setSelectedUnit(unitId);
+  };
+
+  const handleBackClick = () => {
+    setSelectedUnit(null);
+  };
 
   return (
-    <div className="container">
-      <h1>Histórico de Pedidos</h1>
-      <div className="filter-container">
-        <Autocomplete
-          options={units}
-          onSelect={setSelectedUnit}
-          query={unitQuery}
-          setQuery={setUnitQuery}
-          placeholder="Digite o nome da unidade"
-          onToggleList={handleToggleUnitList}
-        />
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="input-field"
-        />
-        <button onClick={handleSearch} className={`button search-button ${loading ? "loading" : ""}`} disabled={loading}>
-          {loading ? "Carregando..." : "Buscar"}
-        </button>
-      </div>
-
-      {data.length === 0 && !loading && selectedUnit && (
-        <p className="no-data">Nenhuma entrada registrada nesse período</p>
+    <Container>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Histórico de Pedidos
+      </Typography>
+      {!selectedUnit && (
+        <div className="date-selector">
+          <IconButton onClick={handlePreviousDay} disabled={loading}>
+            <ArrowBackIcon />
+          </IconButton>
+          <TextField
+            type="date"
+            value={date}
+            onChange={(e) => handleDateChange(e.target.value)}
+            disabled={loading}
+          />
+          <IconButton onClick={handleNextDay} disabled={loading}>
+            <ArrowForwardIcon />
+          </IconButton>
+        </div>
       )}
-
-      {data.length > 0 && selectedUnit && (
-        <>
-          <h2>
-            Entradas para Unidade {selectedUnit.name} em {date}
-          </h2>
-          <div className="data-table-wrapper">
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>Medicamento</th>
-                  <th>Quantidade Total</th>
-                </tr>
-              </thead>
-              <tbody>
-            {data.map((row, index) => (
-                <tr key={index}>
-                <td>{row.item_name || "Desconhecido"}</td> {/* Use item_name if available */}
-                <td>{row.total_quantity}</td>
-                </tr>
-            ))}
-            </tbody>
-            </table>
-          </div>
-        </>
+      {loading ? (
+        <div className="loading">
+          <CircularProgress />
+          <Typography variant="body1">Loading...</Typography>
+        </div>
+      ) : selectedUnit ? (
+        <div>
+          <Button onClick={handleBackClick} startIcon={<ArrowBackIcon />} variant="contained" color="primary">
+            Voltar
+          </Button>
+          <Typography variant="h5" component="h2" gutterBottom>
+            {units.find(unit => unit.id === selectedUnit)?.name}
+          </Typography>
+          <TableContainer component={Paper}>
+            <Table className="data-table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Item</TableCell>
+                  <TableCell>Quantidade Total</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {restockData[selectedUnit]?.map((entry, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{itemNames[entry.item_id] || "Desconhecido"}</TableCell>
+                    <TableCell>{entry.total_quantity}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      ) : (
+        <div className="data-table-wrapper">
+          {Object.keys(restockData).length === 0 ? (
+            <Typography variant="body1">Nenhuma entrada nesta data</Typography>
+          ) : (
+            <TableContainer component={Paper}>
+              <Table className="data-table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Unidade</TableCell>
+                    <TableCell>Itens Restocados</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {units.map((unit) =>
+                    restockData[unit.id] && (
+                      <TableRow key={unit.id}>
+                        <TableCell>{unit.name}</TableCell>
+                        <TableCell>
+                          <IconButton onClick={() => handleUnitClick(unit.id)}>
+                            <SearchIcon />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </div>
       )}
-    </div>
+    </Container>
   );
 };
 
