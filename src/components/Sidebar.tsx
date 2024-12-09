@@ -24,6 +24,7 @@ const Sidebar = () => {
   const goToOrdersPage = () => navigate('/pedidos');
   const goToRestockHistoryPage = () => navigate('/historico-pedidos');
   const goToOptionsPage = () => navigate('/opcoes');
+  const goToOutOfStockPage = () => navigate('/fora-de-estoque');
   const goToDispensationPage = () => navigate("/dispensacao");
 
   return (
@@ -37,6 +38,7 @@ const Sidebar = () => {
           <button onClick={goToOrdersPage} className="sidebar-button">Pedidos</button>
           <button onClick={goToRestockHistoryPage} className="sidebar-button">Histórico de pedidos</button>
           <button onClick={goToDispensationPage} className="sidebar-button">Dados de Dispensação</button>
+          <button onClick={goToOutOfStockPage} className="sidebar-button">Faltas de medicamentos</button>
           <button onClick={goToOptionsPage} className="sidebar-button">Opções</button>
         </div>
       )}
