@@ -1,0 +1,10 @@
+/* AnalysisPage.css */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    table-layout: auto;
+}

@@ -6,6 +6,7 @@ import Sidebar from './components/Sidebar';
 import OptionsPage from './pages/OptionsPage';
 import DispensationPage from "./pages/DispensationPage";
 import OutOfStockPage from './pages/OutOfStockPage';
+import AnalysisPage from './pages/AnalysisPage';
 import './styles/global.css';
 import RestockHistoryPage from './pages/RestockHistoryPage';
 
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/historico-pedidos" element={<RestockHistoryPage />} />
           <Route path="/fora-de-estoque" element={<OutOfStockPage />} />
           <Route path="/dispensacao" element={<DispensationPage />} />
+          <Route path="/analise" element={<AnalysisPage />} />
           <Route path="/opcoes" element={<OptionsPage />} />
         </Routes>
       </div>
