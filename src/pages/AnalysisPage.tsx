@@ -17,14 +17,72 @@ import SearchIcon from '@mui/icons-material/Search';
 import { fetchUnits } from '../services/unitService';
 import { fetchItems } from '../services/itemService';
 import { Unit } from '../types/Unit';
-import '../styles/global.css';
-import '../styles/analysis.css';
+import makeStyles from '@mui/styles/makeStyles';
+
+const useStyles = makeStyles(() => ({
+    container: {
+        maxWidth: '100%',
+        width: '90%',
+        margin: '0 auto',
+        padding: '20px',
+        textAlign: 'center',
+        backgroundColor: '#fff',
+        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+        borderRadius: '8px',
+        overflowX: 'hidden',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    tableContainer: {
+        flexGrow: 1,
+        overflow: 'auto',
+        width: '100%',
+    },
+    table: {
+        width: '100%',
+        borderCollapse: 'collapse',
+        marginTop: '20px',
+        fontSize: '16px',
+    },
+    tableHead: {
+        backgroundColor: 'var(--primary-blue)',
+    },
+    tableCell: {
+        padding: '12px 14px',
+        textAlign: 'left',
+        borderBottom: '1px solid #ddd',
+        whiteSpace: 'nowrap',
+        cursor: 'default',
+        color: 'white',
+        fontWeight: 600,
+        textTransform: 'uppercase',
+    },
+    tableBodyRow: {
+        '&:hover': {
+            backgroundColor: '#e6f0fa',
+        },
+        '&:nth-of-type(even)': {
+            backgroundColor: '#fafafa',
+        },
+    },
+    tableBodyCell: {
+        padding: '12px 14px',
+        textAlign: 'left',
+        borderBottom: '1px solid #ddd',
+        whiteSpace: 'nowrap',
+        cursor: 'default',
+    },
+}));
 
 const AnalysisPage = () => {
     const [units, setUnits] = useState<Unit[]>([]);
     const [items, setItems] = useState<{ [key: string]: any }>({});
     const [daysLeftData, setDaysLeftData] = useState<{ [key: string]: any[] }>({});
     const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
+    const classes = useStyles();
 
     useEffect(() => {
         const fetchUnitsData = async () => {
@@ -57,7 +115,7 @@ const AnalysisPage = () => {
     };
 
     return (
-        <Container>
+        <Container className={classes.container}>
             <Typography variant="h4" component="h1" gutterBottom>
                 Análise de Estoque
             </Typography>
@@ -66,14 +124,14 @@ const AnalysisPage = () => {
                     <Button onClick={handleBackClick} startIcon={<ArrowBackIcon />} variant="contained" color="primary">
                         Voltar
                     </Button>
-                    <TableContainer component={Paper}>
-                        <Table className="data-table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Item</TableCell>
-                                    <TableCell>Dias Restantes</TableCell>
-                                    <TableCell>Consumo Diário Médio</TableCell>
-                                    <TableCell>Quantidade Total</TableCell>
+                    <TableContainer component={Paper} className={classes.tableContainer}>
+                        <Table className={classes.table}>
+                            <TableHead className={classes.tableHead}>
+                                <TableRow className={classes.tableBodyRow}>
+                                    <TableCell className={classes.tableCell}>Item</TableCell>
+                                    <TableCell className={classes.tableCell}>Dias Restantes</TableCell>
+                                    <TableCell className={classes.tableCell}>Consumo Diário Médio</TableCell>
+                                    <TableCell className={classes.tableCell}>Quantidade Total</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -90,19 +148,19 @@ const AnalysisPage = () => {
                     </TableContainer>
                 </div>
             ) : (
-                <div className="data-table-wrapper">
-                    <Table className="data-table">
-                        <TableHead>
+                <div>
+                    <Table className={classes.table}>
+                        <TableHead className={classes.tableHead}>
                             <TableRow>
-                                <TableCell>Unidade</TableCell>
-                                <TableCell>Detalhes</TableCell>
+                                <TableCell className={classes.tableCell}>Unidade</TableCell>
+                                <TableCell className={classes.tableCell}>Detalhes</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {units.map((unit) => (
-                                <TableRow key={unit.id}>
-                                    <TableCell>{unit.name}</TableCell>
-                                    <TableCell>
+                                <TableRow key={unit.id} className={classes.tableBodyRow}>
+                                    <TableCell className={classes.tableBodyCell}>{unit.name}</TableCell>
+                                    <TableCell className={classes.tableBodyCell}>
                                         <IconButton onClick={() => handleIconClick(unit.id)}>
                                             <SearchIcon />
                                         </IconButton>
