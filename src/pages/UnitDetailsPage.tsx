@@ -50,6 +50,7 @@ const UnitDetailsPage = () => {
         <table className="data-table">
           <thead>
             <tr>
+              <th>ID</th>
               <th>Item</th>
               <th>Quantidade a Pedir</th>
             </tr>
@@ -57,6 +58,7 @@ const UnitDetailsPage = () => {
           <tbody>
             {restockDetails.map((detail) => (
               <tr key={detail.item_id}>
+                <td>{detail.item_id}</td>
                 <td>{itemsDictionary[detail.item_id] || detail.item_id}</td>
                 <td>{detail.restock_request_quantity}</td>
               </tr>
