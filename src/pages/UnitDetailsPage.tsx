@@ -69,13 +69,15 @@ const UnitDetailsPage = () => {
             </tr>
           </thead>
           <tbody>
-            {restockDetails.map((detail) => (
-              <tr key={detail.item_id}>
-                <td>{detail.item_id}</td>
-                <td>{itemsDictionary[detail.item_id] || detail.item_id}</td>
-                <td>{detail.restock_request_quantity}</td>
-              </tr>
-            ))}
+            {restockDetails
+              .filter(detail => detail.restock_request_quantity > 0)
+              .map((detail) => (
+                <tr key={detail.item_id}>
+                  <td>{detail.item_id}</td>
+                  <td>{itemsDictionary[detail.item_id] || detail.item_id}</td>
+                  <td>{detail.restock_request_quantity}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
