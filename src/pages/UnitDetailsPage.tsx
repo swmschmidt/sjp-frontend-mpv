@@ -1,5 +1,5 @@
 // src/pages/UnitDetailsPage.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchUnitRestockDetails, fetchUnitRestockDetailsBig, fetchUnitRestockDetailsSmall } from '../services/restockService';
 import { fetchItems } from '../services/itemService';
