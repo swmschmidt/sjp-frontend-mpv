@@ -2,30 +2,21 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchUnits } from '../services/unitService';
-import { fetchUniqueRestockUnits } from '../services/restockService';
 import { Unit } from '../types/Unit';
+import SearchIcon from '@mui/icons-material/Search';
 import '../styles/global.css';
 
 const OrdersPage = () => {
   const [units, setUnits] = useState<Unit[]>([]);
-  const [restockStatus, setRestockStatus] = useState<{ [key: string]: boolean }>({});
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUnitsAndStatus = async () => {
+    const fetchUnitsData = async () => {
       const unitsData = await fetchUnits();
       setUnits(unitsData);
-
-      const uniqueRestockUnitIds = await fetchUniqueRestockUnits();
-      const statusMap = unitsData.reduce((acc, unit) => {
-        acc[unit.id] = uniqueRestockUnitIds.includes(unit.id);
-        return acc;
-      }, {} as { [key: string]: boolean });
-
-      setRestockStatus(statusMap);
     };
 
-    fetchUnitsAndStatus();
+    fetchUnitsData();
   }, []);
 
   const handleIconClick = (unitId: string) => {
@@ -49,12 +40,7 @@ const OrdersPage = () => {
               <tr key={unit.id}>
                 <td>{unit.name}</td>
                 <td>
-                  <span
-                    className={`pedido-icon ${restockStatus[unit.id] ? 'pedido-available' : 'pedido-unavailable'}`}
-                    onClick={() => restockStatus[unit.id] && handleIconClick(unit.id)}
-                  >
-                    {restockStatus[unit.id] ? '🟢' : '🔴'}
-                  </span>
+                  <SearchIcon className="pedido-icon clickable" onClick={() => handleIconClick(unit.id)} />
                 </td>
               </tr>
             ))}

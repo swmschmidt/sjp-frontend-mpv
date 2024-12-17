@@ -275,3 +275,7 @@ body, p {
       background-color: var(--primary-blue);
       color: white;
     }
+
+.clickable {
+  cursor: pointer;
+}
