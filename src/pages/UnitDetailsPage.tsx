@@ -1,7 +1,7 @@
 // src/pages/UnitDetailsPage.tsx
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchUnitRestockDetails } from '../services/restockService';
+import { fetchUnitRestockDetails, fetchUnitRestockDetailsBig, fetchUnitRestockDetailsSmall } from '../services/restockService';
 import { fetchItems } from '../services/itemService';
 import { Item } from '../types/Item';
 import '../styles/global.css';
@@ -18,11 +18,19 @@ const UnitDetailsPage = () => {
   const [restockDetails, setRestockDetails] = useState<RestockDetail[]>([]);
   const [itemsDictionary, setItemsDictionary] = useState<{ [key: string]: string }>({});
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+  const [selectedTab, setSelectedTab] = useState('normal');
 
   useEffect(() => {
     const fetchDetails = async () => {
-      const details = await fetchUnitRestockDetails(unitId!);
-      setRestockDetails(details);
+      let details: RestockDetail[] = [];
+      if (selectedTab === 'normal') {
+        details = await fetchUnitRestockDetails(unitId!);
+      } else if (selectedTab === 'big') {
+        details = await fetchUnitRestockDetailsBig(unitId!);
+      } else if (selectedTab === 'small') {
+        details = await fetchUnitRestockDetailsSmall(unitId!);
+      }
+      setRestockDetails(details || []);
       if (details.length > 0) {
         setLastUpdated(new Date(details[0].timestamp).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }));
       }
@@ -39,13 +47,18 @@ const UnitDetailsPage = () => {
 
     fetchDetails();
     fetchItemsDictionary();
-  }, [unitId]);
+  }, [unitId, selectedTab]);
 
   return (
     <div className="container">
       <button onClick={() => navigate(-1)} className="back-button">← Voltar</button>
       <h1>Detalhes do Pedido para Unidade {unitId}</h1>
       {lastUpdated && <p>Última atualização: {lastUpdated}</p>}
+      <div className="tabs">
+        <button onClick={() => setSelectedTab('small')} className={selectedTab === 'small' ? 'active' : ''}>Pedido pequeno</button>
+        <button onClick={() => setSelectedTab('normal')} className={selectedTab === 'normal' ? 'active' : ''}>Pedido normal</button>
+        <button onClick={() => setSelectedTab('big')} className={selectedTab === 'big' ? 'active' : ''}>Pedido grande</button>
+      </div>
       <div className="data-table-wrapper">
         <table className="data-table">
           <thead>

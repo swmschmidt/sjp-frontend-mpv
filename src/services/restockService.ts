@@ -44,3 +44,29 @@ export const fetchRestockSummed = async (date: string): Promise<any[]> => {
     return [];
   }
 };
+
+export const fetchUnitRestockDetailsBig = async (unitId: string): Promise<any[]> => {
+  try {
+    const response = await axios.get(`${API_URL}/restock/cache_big_version/${unitId}`);
+    if (response.status === 200) {
+      return response.data;
+    }
+    return [];
+  } catch (error) {
+    console.error('Error fetching big restock details:', error);
+    return [];
+  }
+};
+
+export const fetchUnitRestockDetailsSmall = async (unitId: string): Promise<any[]> => {
+  try {
+    const response = await axios.get(`${API_URL}/restock/cache_small_version/${unitId}`);
+    if (response.status === 200) {
+      return response.data;
+    }
+    return [];
+  } catch (error) {
+    console.error('Error fetching small restock details:', error);
+    return [];
+  }
+};

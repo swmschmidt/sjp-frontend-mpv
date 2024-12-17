@@ -256,3 +256,22 @@ body, p {
       padding: 20px;
       width: 100%;
     }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    .tabs button {
+      padding: 10px 20px;
+      margin: 0 5px;
+      cursor: pointer;
+      border: none;
+      background-color: #f0f0f0;
+    }
+    
+    .tabs button.active {
+      background-color: var(--primary-blue);
+      color: white;
+    }
