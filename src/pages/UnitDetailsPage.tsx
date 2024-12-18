@@ -3,7 +3,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchUnitRestockDetails, fetchUnitRestockDetailsBig, fetchUnitRestockDetailsSmall } from '../services/restockService';
 import { fetchItems } from '../services/itemService';
+import { fetchUnits } from '../services/unitService';
 import { Item } from '../types/Item';
+import { Unit } from '../types/Unit';
 import '../styles/global.css';
 
 type RestockDetail = {
@@ -17,6 +19,7 @@ const UnitDetailsPage = () => {
   const navigate = useNavigate();
   const [restockDetails, setRestockDetails] = useState<RestockDetail[]>([]);
   const [itemsDictionary, setItemsDictionary] = useState<{ [key: string]: string }>({});
+  const [unitsDictionary, setUnitsDictionary] = useState<{ [key: string]: string }>({});
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState('normal');
 
@@ -45,14 +48,24 @@ const UnitDetailsPage = () => {
       setItemsDictionary(dictionary);
     };
 
+    const fetchUnitsDictionary = async () => {
+      const units = await fetchUnits();
+      const dictionary = units.reduce((acc: { [key: string]: string }, unit: Unit) => {
+        acc[unit.id] = unit.name;
+        return acc;
+      }, {});
+      setUnitsDictionary(dictionary);
+    };
+
     fetchDetails();
     fetchItemsDictionary();
+    fetchUnitsDictionary();
   }, [unitId, selectedTab]);
 
   return (
     <div className="container">
       <button onClick={() => navigate(-1)} className="back-button">← Voltar</button>
-      <h1>Detalhes do Pedido para Unidade {unitId}</h1>
+      <h1>Sugestões de pedido para {unitsDictionary[unitId!] || unitId}</h1>
       {lastUpdated && <p>Última atualização: {lastUpdated}</p>}
       <div className="tabs">
         <button onClick={() => setSelectedTab('small')} className={selectedTab === 'small' ? 'active' : ''}>Pedido pequeno</button>
