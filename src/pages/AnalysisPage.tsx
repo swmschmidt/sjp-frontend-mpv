@@ -3,19 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {
     Container,
     Button,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
     Typography,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { fetchUnits } from '../services/unitService';
 import { fetchItems } from '../services/itemService';
 import makeStyles from '@mui/styles/makeStyles';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
 const useStyles = makeStyles(() => ({
     container: {
@@ -75,6 +69,14 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
+const columns: GridColDef[] = [
+    { field: 'itemId', headerName: 'ID', flex: 1 },
+    { field: 'item', headerName: 'Item', flex: 1 },
+    { field: 'daysLeft', headerName: 'Dias Restantes', type: 'number', flex: 1 },
+    { field: 'meanDailyConsumption', headerName: 'Consumo Diário Médio', flex: 1 },
+    { field: 'totalQuantity', headerName: 'Quantidade Total', type: 'number', flex: 1 },
+];
+
 const AnalysisPage = () => {
     const { unitId } = useParams<{ unitId: string }>();
     const navigate = useNavigate();
@@ -133,28 +135,20 @@ const AnalysisPage = () => {
             <Button onClick={handleBackClick} startIcon={<ArrowBackIcon />} variant="contained" style={{ backgroundColor: '#003366', color: 'white' }}>
                 Voltar
             </Button>
-            <TableContainer component={Paper} className={classes.tableContainer}>
-                <Table className={classes.table}>
-                    <TableHead className={classes.tableHead}>
-                        <TableRow className={classes.tableBodyRow}>
-                            <TableCell className={classes.tableCell}>Item</TableCell>
-                            <TableCell className={classes.tableCell}>Dias Restantes</TableCell>
-                            <TableCell className={classes.tableCell}>Consumo Diário Médio</TableCell>
-                            <TableCell className={classes.tableCell}>Quantidade Total</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {daysLeftData[unitId]?.map((item) => (
-                            <TableRow key={item.item_id}>
-                                <TableCell>{items[item.item_id]?.name || item.item_id}</TableCell>
-                                <TableCell>{item.days_left.toFixed(2)}</TableCell>
-                                <TableCell>{item.mean_daily_consumption}</TableCell>
-                                <TableCell>{item.total_quantity}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            <div style={{ height: 1000, width: '90%', marginTop: '20px' }}>
+                <DataGrid
+                    rows={daysLeftData[unitId]?.map((item, index) => ({
+                        id: index,
+                        itemId: item.item_id,
+                        item: items[item.item_id]?.name || item.item_id,
+                        daysLeft: item.days_left.toFixed(2),
+                        meanDailyConsumption: item.mean_daily_consumption,
+                        totalQuantity: item.total_quantity,
+                    })) || []}
+                    columns={columns}
+                    disableRowSelectionOnClick
+                />
+            </div>
         </Container>
     );
 };
