@@ -5,6 +5,7 @@ import UnitDetailsPage from './pages/UnitDetailsPage';
 import Sidebar from './components/Sidebar';
 import OptionsPage from './pages/OptionsPage';
 import DispensationPage from "./pages/DispensationPage";
+import OutOfStockSelectPage from './pages/OutOfStockSelectPage';
 import OutOfStockPage from './pages/OutOfStockPage';
 import AnalysisPage from './pages/AnalysisPage';
 import './styles/global.css';
@@ -20,7 +21,8 @@ const App = () => (
           <Route path="/pedidos" element={<OrdersPage />} />
           <Route path="/pedidos/:unitId" element={<UnitDetailsPage />} />
           <Route path="/historico-pedidos" element={<RestockHistoryPage />} />
-          <Route path="/fora-de-estoque" element={<OutOfStockPage />} />
+          <Route path="/faltas" element={<OutOfStockSelectPage />} />3
+          <Route path="/faltas/:unitId" element={<OutOfStockPage />} />
           <Route path="/dispensacao" element={<DispensationPage />} />
           <Route path="/analise" element={<AnalysisPage />} />
           <Route path="/opcoes" element={<OptionsPage />} />
