@@ -20,7 +20,7 @@ const OrdersPage = () => {
     fetchUnitsData();
   }, []);
 
-  const handleUnitSelect = (event: any, value: Unit | null) => {
+  const handleUnitSelect = (_: any, value: Unit | null) => {
     if (value) {
       navigate(`/pedidos/${value.id}`);
     }
