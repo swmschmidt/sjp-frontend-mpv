@@ -4,6 +4,7 @@ import OrdersPage from './pages/OrdersPage';
 import UnitDetailsPage from './pages/UnitDetailsPage';
 import Sidebar from './components/Sidebar';
 import OptionsPage from './pages/OptionsPage';
+import OptionsSelectPage from './pages/OptionsSelectPage';
 import DispensationPage from "./pages/DispensationPage";
 import OutOfStockSelectPage from './pages/OutOfStockSelectPage';
 import OutOfStockPage from './pages/OutOfStockPage';
@@ -27,7 +28,8 @@ const App = () => (
           <Route path="/dispensacao" element={<DispensationPage />} />
           <Route path="/analise" element={<AnalysisSelectPage />} />
           <Route path="/analise/:unitId" element={<AnalysisPage />} />
-          <Route path="/opcoes" element={<OptionsPage />} />
+          <Route path="/opcoes" element={<OptionsSelectPage />} />
+          <Route path="/opcoes/:unitId" element={<OptionsPage />} />
         </Routes>
       </div>
     </div>
