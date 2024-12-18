@@ -97,16 +97,20 @@ const OptionsPage = () => {
         }));
     };
 
-    const handleSaveClick = async (unitId: string, newValue: Item) => {
+    const handleSaveClick = async (unitId: string, itemId: string, newValue: Item) => {
         try {
-            await fetch('https://flask-app-rough-glitter-6700.fly.dev/settings_override', {
+            await fetch('https://flask-app-rough-glitter-6700.fly.dev/settings_override/edit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     unit_id: unitId,
-                    ...newValue,
+                    item_id: itemId,
+                    mean_daily_consumption: newValue.mean_daily_consumption,
+                    minimum_stock: newValue.min_stock,
+                    minimum_possible_quantity: newValue.minimum_possible_quantity,
+                    maximum_stock: newValue.max_stock,
                 }),
             });
             setEditableItemId(null);
@@ -203,7 +207,7 @@ const OptionsPage = () => {
                                     <TableCell>
                                         {editableItemId === item.item_id ? (
                                             <>
-                                                <Button onClick={() => handleSaveClick(unitId, item)} variant="contained" color="primary">
+                                                <Button onClick={() => handleSaveClick(unitId, item.item_id, item)} variant="contained" color="primary">
                                                     Salvar
                                                 </Button>
                                                 <Button onClick={() => handleResetClick(unitId, item.item_id)} variant="contained" color="secondary">
