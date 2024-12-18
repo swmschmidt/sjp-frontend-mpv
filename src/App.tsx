@@ -7,6 +7,7 @@ import OptionsPage from './pages/OptionsPage';
 import DispensationPage from "./pages/DispensationPage";
 import OutOfStockSelectPage from './pages/OutOfStockSelectPage';
 import OutOfStockPage from './pages/OutOfStockPage';
+import AnalysisSelectPage from './pages/AnalysisSelectPage';
 import AnalysisPage from './pages/AnalysisPage';
 import './styles/global.css';
 import RestockHistoryPage from './pages/RestockHistoryPage';
@@ -24,7 +25,8 @@ const App = () => (
           <Route path="/faltas" element={<OutOfStockSelectPage />} />3
           <Route path="/faltas/:unitId" element={<OutOfStockPage />} />
           <Route path="/dispensacao" element={<DispensationPage />} />
-          <Route path="/analise" element={<AnalysisPage />} />
+          <Route path="/analise" element={<AnalysisSelectPage />} />
+          <Route path="/analise/:unitId" element={<AnalysisPage />} />
           <Route path="/opcoes" element={<OptionsPage />} />
         </Routes>
       </div>
