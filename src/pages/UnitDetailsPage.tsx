@@ -35,7 +35,9 @@ const UnitDetailsPage = () => {
       }
       setRestockDetails(details || []);
       if (details.length > 0) {
-        setLastUpdated(new Date(details[0].timestamp).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }));
+        const date = new Date(details[0].timestamp);
+        const saoPauloTime = new Date(date.setHours(date.getHours() - 3));
+        setLastUpdated(saoPauloTime.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }));
       }
     };
 
