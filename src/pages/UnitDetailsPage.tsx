@@ -18,7 +18,7 @@ const UnitDetailsPage = () => {
   const { unitId } = useParams<{ unitId: string }>();
   const navigate = useNavigate();
   const [restockDetails, setRestockDetails] = useState<RestockDetail[]>([]);
-  const [itemsDictionary, setItemsDictionary] = useState<{ [key: string]: string }>({});
+  const [itemsDictionary, setItemsDictionary] = useState<{ [key: string]: Item }>({});
   const [unitsDictionary, setUnitsDictionary] = useState<{ [key: string]: string }>({});
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState('normal');
@@ -43,8 +43,8 @@ const UnitDetailsPage = () => {
 
     const fetchItemsDictionary = async () => {
       const items = await fetchItems();
-      const dictionary = items.reduce((acc: { [key: string]: string }, item: Item) => {
-        acc[item.id] = item.name;
+      const dictionary = items.reduce((acc: { [key: string]: Item }, item: Item) => {
+        acc[item.id] = item;
         return acc;
       }, {});
       setItemsDictionary(dictionary);
@@ -64,6 +64,29 @@ const UnitDetailsPage = () => {
     fetchUnitsDictionary();
   }, [unitId, selectedTab]);
 
+  const categorizeItems = (details: RestockDetail[]) => {
+    const commonItems: RestockDetail[] = [];
+    const controlledItems: RestockDetail[] = [];
+    const specialProgramItems: RestockDetail[] = [];
+
+    details.forEach(detail => {
+      const item = itemsDictionary[detail.item_id];
+      if (item) {
+        if (item.is_controlled) {
+          controlledItems.push(detail);
+        } else if (item.is_special_program) {
+          specialProgramItems.push(detail);
+        } else {
+          commonItems.push(detail);
+        }
+      }
+    });
+
+    return { commonItems, controlledItems, specialProgramItems };
+  };
+
+  const { commonItems, controlledItems, specialProgramItems } = categorizeItems(restockDetails);
+
   return (
     <div className="container">
       <button onClick={() => navigate(-1)} className="back-button">← Voltar</button>
@@ -75,6 +98,7 @@ const UnitDetailsPage = () => {
         <button onClick={() => setSelectedTab('big')} className={selectedTab === 'big' ? 'active' : ''}>Pedido grande</button>
       </div>
       <div className="data-table-wrapper">
+        <h2>Medicamentos comuns</h2>
         <table className="data-table">
           <thead>
             <tr>
@@ -84,12 +108,56 @@ const UnitDetailsPage = () => {
             </tr>
           </thead>
           <tbody>
-            {restockDetails
+            {commonItems
               .filter(detail => detail.restock_request_quantity > 0)
               .map((detail) => (
                 <tr key={detail.item_id}>
                   <td>{detail.item_id}</td>
-                  <td>{itemsDictionary[detail.item_id] || detail.item_id}</td>
+                  <td>{itemsDictionary[detail.item_id]?.name || detail.item_id}</td>
+                  <td>{detail.restock_request_quantity}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+
+        <h2>Medicamentos controlados</h2>
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Item</th>
+              <th>Quantidade a Pedir</th>
+            </tr>
+          </thead>
+          <tbody>
+            {controlledItems
+              .filter(detail => detail.restock_request_quantity > 0)
+              .map((detail) => (
+                <tr key={detail.item_id}>
+                  <td>{detail.item_id}</td>
+                  <td>{itemsDictionary[detail.item_id]?.name || detail.item_id}</td>
+                  <td>{detail.restock_request_quantity}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+
+        <h2>Medicamentos de programas especiais</h2>
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Item</th>
+              <th>Quantidade a Pedir</th>
+            </tr>
+          </thead>
+          <tbody>
+            {specialProgramItems
+              .filter(detail => detail.restock_request_quantity > 0)
+              .map((detail) => (
+                <tr key={detail.item_id}>
+                  <td>{detail.item_id}</td>
+                  <td>{itemsDictionary[detail.item_id]?.name || detail.item_id}</td>
                   <td>{detail.restock_request_quantity}</td>
                 </tr>
               ))}
