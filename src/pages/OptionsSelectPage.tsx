@@ -4,6 +4,7 @@ import { fetchUnits } from '../services/unitService';
 import { Unit } from '../types/Unit';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import FloatingHelpButton from '../components/FloatingHelpButton';
 
 const OptionsSelectPage = () => {
   const [units, setUnits] = useState<Unit[]>([]);
@@ -41,6 +42,8 @@ const OptionsSelectPage = () => {
         )}
         sx={{ width: '30%' }}
       />
+                      <FloatingHelpButton description="Na página de opções você pode mudar as configurações de estoque e médias de consumo que serão
+                      utilizadas nos cálculos dos pedidos de cada unidade." />
     </div>
   );
 };
