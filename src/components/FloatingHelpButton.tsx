@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Fab, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Tooltip } from '@mui/material';
+import { Fab, Dialog, DialogTitle, DialogContent, DialogActions, Button, Tooltip } from '@mui/material';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 type FloatingHelpButtonProps = {
@@ -34,13 +34,13 @@ const FloatingHelpButton: React.FC<FloatingHelpButtonProps> = ({ description }) 
         </Fab>
       </Tooltip>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Page Information</DialogTitle>
+        <DialogTitle>Informações sobre a página</DialogTitle>
         <DialogContent>
-          <DialogContentText>{description}</DialogContentText>
+          <div dangerouslySetInnerHTML={{ __html: description }} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Close
+            Fechar
           </Button>
         </DialogActions>
       </Dialog>
