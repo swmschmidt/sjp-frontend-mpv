@@ -16,6 +16,7 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import '../styles/global.css';
 import FloatingHelpButton from '../components/FloatingHelpButton';
+import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
 //import '../styles/options.css';
 
 interface Item {
@@ -222,6 +223,7 @@ const OptionsPage = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <FloatingFeedbackButton />
                 <FloatingHelpButton description="Na página de opções você pode mudar as configurações de estoque e médias de consumo que serão
                       utilizadas nos cálculos dos pedidos de cada unidade. </br> Para editar, clique no botão 'Editar', mude os valores, e então clique em 
                       'Salvar'. </br></br>

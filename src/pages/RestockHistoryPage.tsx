@@ -22,6 +22,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import SearchIcon from "@mui/icons-material/Search";
 import "../styles/global.css";
+import FloatingFeedbackButton from "../components/FloatingFeedbackButton";
+import FloatingHelpButton from "../components/FloatingHelpButton";
 
 const RestockHistoryPage = () => {
   const [units, setUnits] = useState<Unit[]>([]);
@@ -182,6 +184,8 @@ const RestockHistoryPage = () => {
               </Table>
             </TableContainer>
           )}
+                            <FloatingFeedbackButton />
+                            <FloatingHelpButton description="" />
         </div>
       )}
     </Container>

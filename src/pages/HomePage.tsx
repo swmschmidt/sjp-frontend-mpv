@@ -8,6 +8,7 @@ import '../styles/global.css';
 import '../styles/buttons.css';
 import '../styles/overlay.css';
 import FloatingHelpButton from '../components/FloatingHelpButton';
+import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
 
 type Item = { id: string; name: string };
 type Batch = { item_id: number; batch: string; expiry_date: string; quantity: number };
@@ -181,6 +182,7 @@ const HomePage = () => {
           itemName={searchType === 0 ? selectedOption?.name : undefined}
         />
       )}
+      <FloatingFeedbackButton />
       <FloatingHelpButton description="Nesta página você pode buscar medicamentos de forma parecida com o Portal da Transparência.
       A busca 'por medicamento' irá mostrar o estoque do medicamento selecionado em todas as unidades.
       A busca 'por unidade' irá mostrar todo o estoque de medicamentos da REMUME da unidade selecionada.

@@ -4,6 +4,8 @@ import { fetchUnits } from '../services/unitService';
 import { Unit } from '../types/Unit';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
+import FloatingHelpButton from '../components/FloatingHelpButton';
 
 const OutOfStockSelectPage = () => {
   const [units, setUnits] = useState<Unit[]>([]);
@@ -41,6 +43,8 @@ const OutOfStockSelectPage = () => {
         )}
         sx={{ width: '30%' }}
       />
+                        <FloatingFeedbackButton />
+                        <FloatingHelpButton description="" />
     </div>
   );
 };

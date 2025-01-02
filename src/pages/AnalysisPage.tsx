@@ -10,6 +10,8 @@ import { fetchUnits } from '../services/unitService';
 import { fetchItems } from '../services/itemService';
 import makeStyles from '@mui/styles/makeStyles';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
+import FloatingHelpButton from '../components/FloatingHelpButton';
 
 const useStyles = makeStyles(() => ({
     container: {
@@ -148,6 +150,8 @@ const AnalysisPage = () => {
                     columns={columns}
                     disableRowSelectionOnClick
                 />
+                  <FloatingFeedbackButton />
+                  <FloatingHelpButton description="" />
             </div>
         </Container>
     );

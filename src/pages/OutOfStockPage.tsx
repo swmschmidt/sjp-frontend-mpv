@@ -16,6 +16,8 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import '../styles/global.css';
 import '../styles/outofstock.css';
+import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
+import FloatingHelpButton from '../components/FloatingHelpButton';
 
 const OutOfStockPage = () => {
     const { unitId } = useParams<{ unitId: string }>();
@@ -61,7 +63,10 @@ const OutOfStockPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <FloatingFeedbackButton />
+            <FloatingHelpButton description="" />
         </Container>
+        
     );
 };
 

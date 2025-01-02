@@ -5,6 +5,8 @@ import { fetchUnits } from '../services/unitService';
 import { Unit } from '../types/Unit';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
+import FloatingHelpButton from '../components/FloatingHelpButton';
 //import '../styles/global.css';
 
 const OrdersPage = () => {
@@ -43,6 +45,8 @@ const OrdersPage = () => {
         )}
         sx={{ width: '30%' }}
       />
+                        <FloatingFeedbackButton />
+                        <FloatingHelpButton description="" />
     </div>
   );
 };

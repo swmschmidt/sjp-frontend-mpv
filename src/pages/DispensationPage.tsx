@@ -7,6 +7,8 @@ import { fetchItems } from "../services/itemService";
 import "../styles/global.css";
 import "../styles/buttons.css";
 import "../styles/dispensation.css";
+import FloatingFeedbackButton from "../components/FloatingFeedbackButton";
+import FloatingHelpButton from "../components/FloatingHelpButton";
 
 type Item = { id: string; name: string };
 type TransformedData = {
@@ -137,6 +139,8 @@ const DispensationPage = () => {
           searchType={2} // Specific for dispensation
         />
       )}
+                        <FloatingFeedbackButton />
+                        <FloatingHelpButton description="" />
     </div>
   );
 };

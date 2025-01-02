@@ -7,6 +7,8 @@ import { fetchUnits } from '../services/unitService';
 import { Item } from '../types/Item';
 import { Unit } from '../types/Unit';
 import '../styles/global.css';
+import FloatingHelpButton from '../components/FloatingHelpButton';
+import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
 
 type RestockDetail = {
   item_id: string;
@@ -163,6 +165,8 @@ const UnitDetailsPage = () => {
               ))}
           </tbody>
         </table>
+        <FloatingFeedbackButton />
+        <FloatingHelpButton description="" />
       </div>
     </div>
   );
