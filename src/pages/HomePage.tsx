@@ -9,6 +9,7 @@ import '../styles/buttons.css';
 import '../styles/overlay.css';
 import FloatingHelpButton from '../components/FloatingHelpButton';
 import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
+import PageTracker from '../components/PageTracker'; 
 
 type Item = { id: string; name: string };
 type Batch = { item_id: number; batch: string; expiry_date: string; quantity: number };
@@ -153,6 +154,7 @@ const HomePage = () => {
 
   return (
     <div className="container">
+      <PageTracker />
       <Tabs labels={['Procurar por medicamento', 'Procurar por unidade']} onTabChange={handleTabChange} />
       <Autocomplete
         options={allOptions}
