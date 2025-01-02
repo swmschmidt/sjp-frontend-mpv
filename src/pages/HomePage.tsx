@@ -152,7 +152,6 @@ const HomePage = () => {
 
   return (
     <div className="container">
-      <img src="/logo.svg" alt="Logo" className="logo" />
       <Tabs labels={['Procurar por medicamento', 'Procurar por unidade']} onTabChange={handleTabChange} />
       <Autocomplete
         options={allOptions}
