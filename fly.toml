@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for sjp-frontend-teste on 2024-11-06T23:26:00-03:00
+# fly.toml app configuration file generated for ferramentas-sjp on 2025-01-02T14:53:47-03:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'sjp-frontend-teste'
+app = 'ferramentas-sjp'
 primary_region = 'gru'
 
 [build]
