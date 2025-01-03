@@ -7,6 +7,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
 import FloatingHelpButton from '../components/FloatingHelpButton';
+import PageTracker from '../components/PageTracker';
 //import '../styles/global.css';
 
 const OrdersPage = () => {
@@ -30,6 +31,7 @@ const OrdersPage = () => {
 
   return (
     <div className="container">
+      <PageTracker />
       <h1>Pedidos</h1>
       <Autocomplete
         options={units}

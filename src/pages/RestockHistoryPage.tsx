@@ -24,6 +24,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import "../styles/global.css";
 import FloatingFeedbackButton from "../components/FloatingFeedbackButton";
 import FloatingHelpButton from "../components/FloatingHelpButton";
+import PageTracker from "../components/PageTracker";
 
 const RestockHistoryPage = () => {
   const [units, setUnits] = useState<Unit[]>([]);
@@ -103,6 +104,7 @@ const RestockHistoryPage = () => {
 
   return (
     <Container>
+      <PageTracker />
       <Typography variant="h4" component="h1" gutterBottom>
         Histórico de Pedidos
       </Typography>

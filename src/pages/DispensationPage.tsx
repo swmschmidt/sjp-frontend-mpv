@@ -9,6 +9,7 @@ import "../styles/buttons.css";
 import "../styles/dispensation.css";
 import FloatingFeedbackButton from "../components/FloatingFeedbackButton";
 import FloatingHelpButton from "../components/FloatingHelpButton";
+import PageTracker from "../components/PageTracker";
 
 type Item = { id: string; name: string };
 type TransformedData = {
@@ -105,6 +106,7 @@ const DispensationPage = () => {
 
   return (
     <div className="container">
+      <PageTracker />
       <h1>Dados de Dispensação</h1>
       <div className="filter-container">
         <Autocomplete

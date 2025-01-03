@@ -29,7 +29,7 @@ const FloatingHelpButton: React.FC<FloatingHelpButtonProps> = ({ description }) 
         disableFocusListener
         disableTouchListener
       >
-        <Fab color="primary" aria-label="help" onClick={handleClickOpen} style={{ position: 'fixed', bottom: 16, right: 16 }}>
+        <Fab color="primary" aria-label="help" onClick={handleClickOpen} style={{ position: 'fixed', bottom: 32, right: 16 }}>
           <HelpOutlineIcon />
         </Fab>
       </Tooltip>

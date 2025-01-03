@@ -6,6 +6,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import FloatingHelpButton from '../components/FloatingHelpButton';
 import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
+import PageTracker from '../components/PageTracker';
 
 const OptionsSelectPage = () => {
   const [units, setUnits] = useState<Unit[]>([]);
@@ -28,6 +29,7 @@ const OptionsSelectPage = () => {
 
   return (
     <div className="container">
+      <PageTracker />
       <h1>Configurações de Unidade</h1>
       <Autocomplete
         options={units}

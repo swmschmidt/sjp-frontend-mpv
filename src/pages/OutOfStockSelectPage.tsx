@@ -6,6 +6,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
 import FloatingHelpButton from '../components/FloatingHelpButton';
+import PageTracker from '../components/PageTracker';
 
 const OutOfStockSelectPage = () => {
   const [units, setUnits] = useState<Unit[]>([]);
@@ -28,6 +29,7 @@ const OutOfStockSelectPage = () => {
 
   return (
     <div className="container">
+      <PageTracker />
       <h1>Medicamentos sem estoque</h1>
       <Autocomplete
         options={units}

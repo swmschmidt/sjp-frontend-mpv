@@ -17,6 +17,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import '../styles/global.css';
 import FloatingHelpButton from '../components/FloatingHelpButton';
 import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
+import PageTracker from '../components/PageTracker';
 //import '../styles/options.css';
 
 interface Item {
@@ -151,6 +152,7 @@ const OptionsPage = () => {
 
     return (
         <Container maxWidth="xl" sx={{ padding: 0, width: '100%', overflow: 'visible' }}>
+            <PageTracker />
             <Typography variant="h4" component="h1" gutterBottom>
                 Configurações de Inventário
             </Typography>

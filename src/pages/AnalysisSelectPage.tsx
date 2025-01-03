@@ -6,6 +6,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
 import FloatingHelpButton from '../components/FloatingHelpButton';
+import PageTracker from '../components/PageTracker';
 
 const AnalysisSelectPage = () => {
   const [units, setUnits] = useState<Unit[]>([]);
@@ -28,6 +29,7 @@ const AnalysisSelectPage = () => {
 
   return (
     <div className="container">
+      <PageTracker />
       <h1>Análise de Estoque</h1>
       <Autocomplete
         options={units}

@@ -18,6 +18,7 @@ import '../styles/global.css';
 import '../styles/outofstock.css';
 import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
 import FloatingHelpButton from '../components/FloatingHelpButton';
+import PageTracker from '../components/PageTracker';
 
 const OutOfStockPage = () => {
     const { unitId } = useParams<{ unitId: string }>();
@@ -41,6 +42,7 @@ const OutOfStockPage = () => {
 
     return (
         <Container>
+            <PageTracker />
             <Typography variant="h4" component="h1" gutterBottom>
                 Itens em falta
             </Typography>

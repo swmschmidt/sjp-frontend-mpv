@@ -12,6 +12,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import FloatingFeedbackButton from '../components/FloatingFeedbackButton';
 import FloatingHelpButton from '../components/FloatingHelpButton';
+import PageTracker from '../components/PageTracker';
 
 const useStyles = makeStyles(() => ({
     container: {
@@ -131,6 +132,7 @@ const AnalysisPage = () => {
 
     return (
         <Container className={classes.container}>
+            <PageTracker />
             <Typography variant="h4" component="h1" gutterBottom>
                 Análise de Estoque para {unitName}
             </Typography>
