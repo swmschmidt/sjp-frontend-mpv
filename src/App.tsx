@@ -10,6 +10,7 @@ import OutOfStockSelectPage from './pages/OutOfStockSelectPage';
 import OutOfStockPage from './pages/OutOfStockPage';
 import AnalysisSelectPage from './pages/AnalysisSelectPage';
 import AnalysisPage from './pages/AnalysisPage';
+import CalculationTablePage from './pages/CalculationTablePage';
 import './styles/global.css';
 import RestockHistoryPage from './pages/RestockHistoryPage';
 
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/analise/:unitId" element={<AnalysisPage />} />
           <Route path="/opcoes" element={<OptionsSelectPage />} />
           <Route path="/opcoes/:unitId" element={<OptionsPage />} />
+          <Route path="/calculadora" element={<CalculationTablePage />} />
         </Routes>
       </div>
     </div>

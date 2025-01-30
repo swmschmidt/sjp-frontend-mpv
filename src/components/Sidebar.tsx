@@ -27,6 +27,7 @@ const Sidebar = () => {
   const goToAnalysisPage = () => navigate('/analise');
   const goToOutOfStockPage = () => navigate('/faltas');
   const goToDispensationPage = () => navigate("/dispensacao");
+  const goToCalculationTablePage = () => navigate("/calculadora");
 
   return (
     <div className={`sidebar ${isOpen ? 'open' : ''}`}>
@@ -42,6 +43,7 @@ const Sidebar = () => {
           <button onClick={goToOutOfStockPage} className="sidebar-button">Medicamentos sem estoque</button>
           <button onClick={goToAnalysisPage} className="sidebar-button">Análise de Estoque</button>
           <button onClick={goToOptionsPage} className="sidebar-button">Opções</button>
+          <button onClick={goToCalculationTablePage} className="sidebar-button">Calculos de medicamentos</button>
         </div>
       )}
     </div>
