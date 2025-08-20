@@ -15,7 +15,7 @@ export const fetchDispensationByHour = async (
 
 export const fetchDispensationByDay = async (unitId: string, date: string) => {
   const response = await axios.get(
-    `${API_URL}/dispensation/by_day/unit/${unitId}/${date}`
+    `${API_URL}/dispensation/by_day/${unitId}/${date}`
   );
   return response.data;
 };

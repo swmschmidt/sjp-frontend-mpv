@@ -27,6 +27,7 @@ const Sidebar = () => {
   const goToAnalysisPage = () => navigate('/analise');
   const goToOutOfStockPage = () => navigate('/faltas');
   const goToDispensationPage = () => navigate("/dispensacao");
+  const goToDispensationByDayPage = () => navigate("/dispensacao-dia");
   const goToCalculationTablePage = () => navigate("/calculadora");
 
   return (
@@ -40,6 +41,7 @@ const Sidebar = () => {
           <button onClick={goToOrdersPage} className="sidebar-button">Pedidos</button>
           <button onClick={goToRestockHistoryPage} className="sidebar-button">Histórico de pedidos</button>
           <button onClick={goToDispensationPage} className="sidebar-button">Dados de Dispensação</button>
+          <button onClick={goToDispensationByDayPage} className="sidebar-button">Dispensação por Dia</button>
           <button onClick={goToOutOfStockPage} className="sidebar-button">Medicamentos sem estoque</button>
           <button onClick={goToAnalysisPage} className="sidebar-button">Análise de Estoque</button>
           <button onClick={goToOptionsPage} className="sidebar-button">Opções</button>

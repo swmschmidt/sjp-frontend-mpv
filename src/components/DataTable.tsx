@@ -10,11 +10,14 @@ type TransformedData = {
   timestamp?: string;
   quantity: number;
   operation_type?: string;
+  item_name?: string;
+  quantity_received?: number;
+  quantity_dispensed?: number;
 };
 
 interface DataTableProps {
   data: TransformedData[];
-  searchType: number; // 0: Medicamento, 1: Unidade, 2: Dispensação
+  searchType: number; // 0: Medicamento, 1: Unidade, 2: Dispensação, 3: Dispensação por Dia
   unitName?: string;
   itemName?: string;
 }
@@ -47,24 +50,36 @@ const DataTable: React.FC<DataTableProps> = ({
           return parseDate(a[key] || "") > parseDate(b[key] || "") ? 1 : -1;
         } else if (key === "quantity") {
           return a.quantity - b.quantity;
+        } else if (key === "quantity_received" && a.quantity_received !== undefined && b.quantity_received !== undefined) {
+          return a.quantity_received - b.quantity_received;
+        } else if (key === "quantity_dispensed" && a.quantity_dispensed !== undefined && b.quantity_dispensed !== undefined) {
+          return a.quantity_dispensed - b.quantity_dispensed;
         } else if (key === "batch") {
           return a.batch.localeCompare(b.batch);
         } else if (key === "unit" && a.unit && b.unit) {
           return a.unit.localeCompare(b.unit);
         } else if (key === "name" && a.name && b.name) {
           return a.name.localeCompare(b.name);
+        } else if (key === "item_name" && a.item_name && b.item_name) {
+          return a.item_name.localeCompare(b.item_name);
         }
       } else if (order === 2) {
         if (key === "expiry_date" || key === "timestamp") {
           return parseDate(a[key] || "") < parseDate(b[key] || "") ? 1 : -1;
         } else if (key === "quantity") {
           return b.quantity - a.quantity;
+        } else if (key === "quantity_received" && a.quantity_received !== undefined && b.quantity_received !== undefined) {
+          return b.quantity_received - a.quantity_received;
+        } else if (key === "quantity_dispensed" && a.quantity_dispensed !== undefined && b.quantity_dispensed !== undefined) {
+          return b.quantity_dispensed - a.quantity_dispensed;
         } else if (key === "batch") {
           return b.batch.localeCompare(a.batch);
         } else if (key === "unit" && a.unit && b.unit) {
           return b.unit.localeCompare(a.unit);
         } else if (key === "name" && a.name && b.name) {
           return b.name.localeCompare(a.name);
+        } else if (key === "item_name" && a.item_name && b.item_name) {
+          return b.item_name.localeCompare(a.item_name);
         }
       }
     }
@@ -74,6 +89,8 @@ const DataTable: React.FC<DataTableProps> = ({
   const columns =
     searchType === 2
       ? ["Lote", "Data/Hora", "Quantidade", "Tipo de Operação"] // Dispensação
+      : searchType === 3
+      ? ["Medicamento", "Quantidade Recebida", "Quantidade Dispensada"] // Dispensação por Dia
       : searchType === 0
       ? ["Unidade", "Lote", "Data de Validade", "Quantidade"] // Medicamento
       : ["Nome", "Lote", "Data de Validade", "Quantidade"]; // Unidade
@@ -111,9 +128,15 @@ const DataTable: React.FC<DataTableProps> = ({
                 {searchType === 1 && (
                   <td data-label="Nome">{row.name ?? ""}</td>
                 )}
-                <td data-label="Lote">{row.batch}</td>
-                {searchType === 2 ? (
+                {searchType === 3 ? (
                   <>
+                    <td data-label="Medicamento">{row.item_name ?? ""}</td>
+                    <td data-label="Quantidade Recebida">{row.quantity_received ?? 0}</td>
+                    <td data-label="Quantidade Dispensada">{row.quantity_dispensed ?? 0}</td>
+                  </>
+                ) : searchType === 2 ? (
+                  <>
+                    <td data-label="Lote">{row.batch}</td>
                     <td data-label="Data/Hora">{row.timestamp ?? ""}</td>
                     <td data-label="Quantidade">{row.quantity}</td>
                     <td data-label="Tipo de Operação">
@@ -122,6 +145,7 @@ const DataTable: React.FC<DataTableProps> = ({
                   </>
                 ) : (
                   <>
+                    <td data-label="Lote">{row.batch}</td>
                     <td data-label="Data de Validade">
                       {row.expiry_date ?? ""}
                     </td>
